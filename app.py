@@ -1,13 +1,24 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, send_from_directory
-from flask_cors import CORS
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import json
 import os
 from datetime import datetime, timedelta
 import hashlib
 from werkzeug.utils import secure_filename
 
+# Try to import CORS, but don't fail if it's not available
+try:
+    from flask_cors import CORS
+    cors_available = True
+except ImportError:
+    cors_available = False
+    print("Flask-CORS not installed. CORS features disabled.")
+
 app = Flask(__name__)
-CORS(app)
+
+# Enable CORS only if available
+if cors_available:
+    CORS(app)
+
 app.config['UPLOAD_FOLDER'] = 'static/uploads/images'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
@@ -24,7 +35,6 @@ SUBJECTS_DIR = os.path.join(DATA_DIR, 'subjects')
 os.makedirs(CLASSES_DIR, exist_ok=True)
 os.makedirs(SUBJECTS_DIR, exist_ok=True)
 
-# Sample data initialization
 def init_sample_data():
     """Initialize sample data files if they don't exist"""
     
@@ -46,11 +56,15 @@ def init_sample_data():
     for subject in subjects:
         subject_file = os.path.join(SUBJECTS_DIR, f'{subject}.json')
         if not os.path.exists(subject_file):
+            # Create sample homework with current date
+            today = datetime.now()
+            week_num = today.isocalendar()[1]
+            
             sample_homework = {
                 "subject": subject.capitalize(),
                 "homework": [
                     {
-                        "id": "hw_001",
+                        "id": f"hw_{subject}_001",
                         "class": "8",
                         "subject": subject,
                         "type": "mcqs",
@@ -58,21 +72,21 @@ def init_sample_data():
                         "options": ["Option A", "Option B", "Option C", "Option D"],
                         "correct_answer": "A",
                         "marks": 1,
-                        "date": datetime.now().strftime("%Y-%m-%d"),
-                        "week": get_week_number(datetime.now()),
+                        "date": today.strftime("%Y-%m-%d"),
+                        "week": week_num,
                         "has_image": False,
                         "image_path": None
                     },
                     {
-                        "id": "hw_002",
+                        "id": f"hw_{subject}_002",
                         "class": "9",
                         "subject": subject,
                         "type": "saq",
                         "question": f"Sample {subject} Short Answer Question for Class 9",
                         "hint": "Think about the basic concepts",
                         "marks": 5,
-                        "date": datetime.now().strftime("%Y-%m-%d"),
-                        "week": get_week_number(datetime.now()),
+                        "date": today.strftime("%Y-%m-%d"),
+                        "week": week_num,
                         "has_image": False,
                         "image_path": None
                     }
@@ -106,9 +120,13 @@ def get_classes():
     for class_num in range(5, 13):
         class_file = os.path.join(CLASSES_DIR, f'class_{class_num}.json')
         if os.path.exists(class_file):
-            with open(class_file, 'r') as f:
-                class_data = json.load(f)
-                classes.append(class_data)
+            try:
+                with open(class_file, 'r') as f:
+                    class_data = json.load(f)
+                    classes.append(class_data)
+            except:
+                # If file is corrupted, skip it
+                pass
     return jsonify(classes)
 
 @app.route('/api/subjects')
@@ -117,9 +135,12 @@ def get_subjects():
     subjects = []
     for subject_file in os.listdir(SUBJECTS_DIR):
         if subject_file.endswith('.json'):
-            with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
-                subject_data = json.load(f)
-                subjects.append(subject_data['subject'])
+            try:
+                with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
+                    subject_data = json.load(f)
+                    subjects.append(subject_data['subject'])
+            except:
+                pass
     return jsonify(subjects)
 
 @app.route('/api/homework')
@@ -135,22 +156,25 @@ def get_homework():
     # Load all homework from subject files
     for subject_file in os.listdir(SUBJECTS_DIR):
         if subject_file.endswith('.json'):
-            with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
-                data = json.load(f)
-                for homework in data.get('homework', []):
-                    # Apply filters
-                    if class_filter and homework.get('class') != class_filter:
-                        continue
-                    if subject_filter and homework.get('subject').lower() != subject_filter.lower():
-                        continue
-                    if type_filter and homework.get('type') != type_filter:
-                        continue
-                    if week_filter:
-                        hw_date = datetime.strptime(homework.get('date', datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
-                        hw_week = get_week_number(hw_date)
-                        if str(hw_week) != week_filter:
+            try:
+                with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
+                    data = json.load(f)
+                    for homework in data.get('homework', []):
+                        # Apply filters
+                        if class_filter and homework.get('class') != class_filter:
                             continue
-                    all_homework.append(homework)
+                        if subject_filter and homework.get('subject').lower() != subject_filter.lower():
+                            continue
+                        if type_filter and homework.get('type') != type_filter:
+                            continue
+                        if week_filter:
+                            hw_date = datetime.strptime(homework.get('date', datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
+                            hw_week = get_week_number(hw_date)
+                            if str(hw_week) != week_filter:
+                                continue
+                        all_homework.append(homework)
+            except:
+                pass
     
     return jsonify(all_homework)
 
@@ -272,23 +296,26 @@ def update_homework(hw_id):
         for subject_file in os.listdir(SUBJECTS_DIR):
             if subject_file.endswith('.json'):
                 filepath = os.path.join(SUBJECTS_DIR, subject_file)
-                with open(filepath, 'r') as f:
-                    subject_data = json.load(f)
-                
-                for i, hw in enumerate(subject_data.get('homework', [])):
-                    if hw['id'] == hw_id:
-                        # Update fields
-                        for key, value in data.items():
-                            if key in hw:
-                                hw[key] = value
-                        subject_data['homework'][i] = hw
-                        found = True
+                try:
+                    with open(filepath, 'r') as f:
+                        subject_data = json.load(f)
+                    
+                    for i, hw in enumerate(subject_data.get('homework', [])):
+                        if hw['id'] == hw_id:
+                            # Update fields
+                            for key, value in data.items():
+                                if key in hw:
+                                    hw[key] = value
+                            subject_data['homework'][i] = hw
+                            found = True
+                            break
+                    
+                    if found:
+                        with open(filepath, 'w') as f:
+                            json.dump(subject_data, f, indent=2)
                         break
-                
-                if found:
-                    with open(filepath, 'w') as f:
-                        json.dump(subject_data, f, indent=2)
-                    break
+                except:
+                    pass
         
         if not found:
             return jsonify({'error': 'Homework not found'}), 404
@@ -306,17 +333,20 @@ def delete_homework(hw_id):
         for subject_file in os.listdir(SUBJECTS_DIR):
             if subject_file.endswith('.json'):
                 filepath = os.path.join(SUBJECTS_DIR, subject_file)
-                with open(filepath, 'r') as f:
-                    subject_data = json.load(f)
-                
-                original_length = len(subject_data.get('homework', []))
-                subject_data['homework'] = [hw for hw in subject_data.get('homework', []) if hw['id'] != hw_id]
-                
-                if len(subject_data['homework']) < original_length:
-                    found = True
-                    with open(filepath, 'w') as f:
-                        json.dump(subject_data, f, indent=2)
-                    break
+                try:
+                    with open(filepath, 'r') as f:
+                        subject_data = json.load(f)
+                    
+                    original_length = len(subject_data.get('homework', []))
+                    subject_data['homework'] = [hw for hw in subject_data.get('homework', []) if hw['id'] != hw_id]
+                    
+                    if len(subject_data['homework']) < original_length:
+                        found = True
+                        with open(filepath, 'w') as f:
+                            json.dump(subject_data, f, indent=2)
+                        break
+                except:
+                    pass
         
         if not found:
             return jsonify({'error': 'Homework not found'}), 404
@@ -327,7 +357,16 @@ def delete_homework(hw_id):
         return jsonify({'error': str(e)}), 500
 
 # Initialize sample data
-init_sample_data()
+try:
+    init_sample_data()
+except:
+    print("Warning: Could not initialize sample data")
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # For local development
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
