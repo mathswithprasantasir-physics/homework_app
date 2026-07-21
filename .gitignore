@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Flask
+instance/
+.webassets-cache
+
+# Uploads
+static/uploads/images/*
+!static/uploads/images/.gitkeep
+
+# Data files (optional - uncomment if you want to keep sample data)
+# data/classes/*.json
+# data/subjects/*.json
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
