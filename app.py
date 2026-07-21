@@ -25,7 +25,7 @@ if cors_available:
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads/images'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
 
 # Admin credentials - In production, use environment variables
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
@@ -87,7 +87,13 @@ def init_sample_data():
                         "subject": subject,
                         "type": "mcqs",
                         "question": f"Sample {subject} MCQ question for Class 8",
-                        "options": ["Option A", "Option B", "Option C", "Option D"],
+                        "question_image": None,
+                        "options": [
+                            {"text": "Option A", "image": None},
+                            {"text": "Option B", "image": None},
+                            {"text": "Option C", "image": None},
+                            {"text": "Option D", "image": None}
+                        ],
                         "correct_answer": "A",
                         "marks": 1,
                         "date": today.strftime("%Y-%m-%d"),
@@ -101,6 +107,7 @@ def init_sample_data():
                         "subject": subject,
                         "type": "saq",
                         "question": f"Sample {subject} Short Answer Question for Class 9",
+                        "question_image": None,
                         "hint": "Think about the basic concepts",
                         "marks": 5,
                         "date": today.strftime("%Y-%m-%d"),
@@ -260,7 +267,7 @@ def get_question_types():
 @app.route('/api/upload_image', methods=['POST'])
 @login_required
 def upload_image():
-    """Upload image for question"""
+    """Upload image for question or option"""
     if 'image' not in request.files:
         return jsonify({'error': 'No image uploaded'}), 400
     
@@ -269,7 +276,9 @@ def upload_image():
         return jsonify({'error': 'No image selected'}), 400
     
     if file and allowed_file(file.filename):
-        filename = secure_filename(f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file.filename}")
+        # Generate unique filename with timestamp
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = secure_filename(f"{timestamp}_{file.filename}")
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         
@@ -306,6 +315,25 @@ def add_homework():
         # Generate homework ID
         hw_id = f"hw_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         
+        # Process options for MCQs
+        options = data.get('options', [])
+        if data['type'] == 'mcqs' and options:
+            # Ensure options have both text and image fields
+            processed_options = []
+            for opt in options:
+                if isinstance(opt, str):
+                    processed_options.append({"text": opt, "image": None})
+                elif isinstance(opt, dict):
+                    processed_options.append({
+                        "text": opt.get('text', ''),
+                        "image": opt.get('image', None)
+                    })
+                else:
+                    processed_options.append({"text": str(opt), "image": None})
+            options = processed_options
+        else:
+            options = []
+        
         # Create homework entry
         homework = {
             'id': hw_id,
@@ -313,13 +341,14 @@ def add_homework():
             'subject': data['subject'].lower(),
             'type': data['type'],
             'question': data['question'],
+            'question_image': data.get('question_image'),
+            'options': options,
+            'correct_answer': data.get('correct_answer'),
             'marks': int(data.get('marks', 1)),
             'date': data.get('date', datetime.now().strftime("%Y-%m-%d")),
             'week': get_week_number(datetime.now()),
-            'has_image': bool(data.get('image_path')),
-            'image_path': data.get('image_path'),
-            'options': data.get('options', []),
-            'correct_answer': data.get('correct_answer'),
+            'has_image': bool(data.get('question_image')),
+            'image_path': data.get('question_image'),
             'hint': data.get('hint')
         }
         
