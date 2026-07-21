@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h4><i class="bi bi-file-earmark-plus"></i> Create Homework Assignment</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Homework Title</label>
+                        <input type="text" class="form-control" name="title" required 
+                               placeholder="E.g., Chapter 1: Quadratic Equations">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Class</label>
+                        <select class="form-select" name="class_level" id="classSelect" required>
+                            <option value="">Select Class</option>
+                            {% for i in range(5, 13) %}
+                            <option value="{{ i }}">Class {{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Due Date</label>
+                        <input type="date" class="form-control" name="due_date">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <select class="form-select" name="subject_id" id="subjectSelect" required>
+                        <option value="">Select Subject</option>
+                        {% for subject in subjects %}
+                        <option value="{{ subject.id }}" data-class="{{ subject.class_level }}">
+                            {{ subject.name }} - Class {{ subject.class_level }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Select Questions</label>
+                    <div id="questionsList" class="border rounded p-3" style="max-height: 400px; overflow-y: auto;">
+                        <p class="text-muted">Select subject to load questions...</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="bi bi-check-circle"></i> Create Homework
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('subjectSelect').addEventListener('change', function() {
+    const subjectId = this.value;
+    if (subjectId) {
+        fetch(`/admin/get_questions?subject_id=${subjectId}`)
+            .then(res => res.json())
+            .then(questions => {
+                const container = document.getElementById('questionsList');
+                if (questions.length > 0) {
+                    container.innerHTML = questions.map(q => `
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="question_ids" value="${q.id}" id="q${q.id}">
+                            <label class="form-check-label" for="q${q.id}">
+                                <span class="badge bg-secondary">${q.type}</span>
+                                <span class="badge bg-dark">${q.marks} Marks</span>
+                                ${q.text}
+                            </label>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="text-muted">No questions found for this subject.</p>';
+                }
+            });
+    }
+});
+</script>
+{% endblock %}

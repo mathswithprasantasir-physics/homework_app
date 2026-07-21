@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4><i class="bi bi-plus-circle"></i> Add New Question</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" id="questionForm">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Subject & Class</label>
+                        <select class="form-select" name="subject_id" required>
+                            <option value="">Select Subject</option>
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">
+                                {{ subject.name }} - Class {{ subject.class_level }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Question Type</label>
+                        <select class="form-select" name="question_type" id="questionType" required>
+                            <option value="">Select Type</option>
+                            <option value="MCQ">MCQ (Multiple Choice)</option>
+                            <option value="SAQ">SAQ (Short Answer)</option>
+                            <option value="VSAQ">VSAQ (Very Short Answer)</option>
+                            <option value="LAQ">LAQ (Long Answer)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Marks</label>
+                        <input type="number" class="form-control" name="marks" value="1" min="1" required>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Difficulty</label>
+                        <select class="form-select" name="difficulty">
+                            <option value="easy">🟢 Easy</option>
+                            <option value="medium" selected>🟡 Medium</option>
+                            <option value="hard">🔴 Hard</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Question Text *</label>
+                    <textarea class="form-control" name="question_text" rows="4" required 
+                              placeholder="Enter your question here..."></textarea>
+                    <small class="text-muted">Use $...$ for inline LaTeX, $$...$$ for display math</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">LaTeX Content (Optional)</label>
+                    <textarea class="form-control" name="question_latex" rows="3" 
+                              placeholder="E.g., x^2 + y^2 = z^2"></textarea>
+                </div>
+                
+                <!-- MCQ Options -->
+                <div id="mcqSection" style="display: none;">
+                    <h5 class="mt-3">MCQ Options</h5>
+                    <div class="row">
+                        {% for option in ['A', 'B', 'C', 'D'] %}
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Option {{ option }}</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="option_{{ option.lower() }}" 
+                                       placeholder="Option {{ option }}">
+                                <span class="input-group-text">
+                                    <input type="radio" name="correct_option" value="{{ option }}" 
+                                           {% if option == 'A' %}checked{% endif %}>
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Upload Image (Optional)</label>
+                    <input type="file" class="form-control" name="question_image" accept="image/*" id="imageInput">
+                    <div id="imagePreview" class="mt-2"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Answer/Solution (Optional)</label>
+                    <textarea class="form-control" name="correct_answer" rows="3" 
+                              placeholder="Correct answer or solution..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Save Question
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('questionType').addEventListener('change', function() {
+    const mcqSection = document.getElementById('mcqSection');
+    if (this.value === 'MCQ') {
+        mcqSection.style.display = 'block';
+    } else {
+        mcqSection.style.display = 'none';
+    }
+});
+
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imagePreview').innerHTML = 
+                `<img src="${e.target.result}" class="img-fluid rounded" style="max-height: 200px;">`;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+{% endblock %}
