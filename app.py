@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory, session, redirect, url_for, flash
 import json
 import os
 from datetime import datetime, timedelta
 import hashlib
 from werkzeug.utils import secure_filename
+from functools import wraps
 
 # Try to import CORS, but don't fail if it's not available
 try:
@@ -15,6 +16,9 @@ except ImportError:
 
 app = Flask(__name__)
 
+# Secret key for sessions - CHANGE THIS IN PRODUCTION!
+app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
+
 # Enable CORS only if available
 if cors_available:
     CORS(app)
@@ -22,6 +26,10 @@ if cors_available:
 app.config['UPLOAD_FOLDER'] = 'static/uploads/images'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+
+# Admin credentials - In production, use environment variables
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -34,6 +42,16 @@ SUBJECTS_DIR = os.path.join(DATA_DIR, 'subjects')
 # Create directories if they don't exist
 os.makedirs(CLASSES_DIR, exist_ok=True)
 os.makedirs(SUBJECTS_DIR, exist_ok=True)
+
+# Login required decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            flash('Please login to access the admin panel.', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 def init_sample_data():
     """Initialize sample data files if they don't exist"""
@@ -108,11 +126,47 @@ def get_week_range(date):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Authentication Routes
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Admin login page"""
+    if session.get('logged_in'):
+        return redirect(url_for('admin'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['logged_in'] = True
+            session['username'] = username
+            flash('Login successful!', 'success')
+            return redirect(url_for('admin'))
+        else:
+            flash('Invalid username or password!', 'danger')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """Admin logout"""
+    session.clear()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('login'))
+
+# Main Routes
 @app.route('/')
 def index():
     """Main page with filters"""
     return render_template('index.html')
 
+@app.route('/admin')
+@login_required
+def admin():
+    """Admin panel"""
+    return render_template('admin.html')
+
+# API Routes
 @app.route('/api/classes')
 def get_classes():
     """Get all classes"""
@@ -125,7 +179,6 @@ def get_classes():
                     class_data = json.load(f)
                     classes.append(class_data)
             except:
-                # If file is corrupted, skip it
                 pass
     return jsonify(classes)
 
@@ -204,12 +257,8 @@ def get_question_types():
     types = ['mcqs', 'saq', 'vsaq', 'laq']
     return jsonify(types)
 
-@app.route('/admin')
-def admin():
-    """Admin panel"""
-    return render_template('admin.html')
-
 @app.route('/api/upload_image', methods=['POST'])
+@login_required
 def upload_image():
     """Upload image for question"""
     if 'image' not in request.files:
@@ -234,6 +283,7 @@ def upload_image():
     return jsonify({'error': 'Invalid file type'}), 400
 
 @app.route('/api/add_homework', methods=['POST'])
+@login_required
 def add_homework():
     """Add new homework (admin only)"""
     try:
@@ -286,6 +336,7 @@ def add_homework():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/update_homework/<hw_id>', methods=['PUT'])
+@login_required
 def update_homework(hw_id):
     """Update existing homework (admin only)"""
     try:
@@ -326,6 +377,7 @@ def update_homework(hw_id):
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/delete_homework/<hw_id>', methods=['DELETE'])
+@login_required
 def delete_homework(hw_id):
     """Delete homework (admin only)"""
     try:
@@ -356,17 +408,17 @@ def delete_homework(hw_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
 # Initialize sample data
 try:
     init_sample_data()
 except:
     print("Warning: Could not initialize sample data")
 
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
-
 if __name__ == '__main__':
     # For local development
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
