@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>Homework Portal</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="/admin" class="btn btn-admin">
+                        <i class="fas fa-user-cog"></i> Admin Panel
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="classFilter">
+                        <i class="fas fa-users"></i> Class
+                    </label>
+                    <select id="classFilter" class="filter-select">
+                        <option value="">All Classes</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="subjectFilter">
+                        <i class="fas fa-book"></i> Subject
+                    </label>
+                    <select id="subjectFilter" class="filter-select">
+                        <option value="">All Subjects</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="typeFilter">
+                        <i class="fas fa-question-circle"></i> Question Type
+                    </label>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="mcqs">MCQs</option>
+                        <option value="saq">Short Answer</option>
+                        <option value="vsaq">Very Short Answer</option>
+                        <option value="laq">Long Answer</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="weekFilter">
+                        <i class="fas fa-calendar-week"></i> Week
+                    </label>
+                    <select id="weekFilter" class="filter-select">
+                        <option value="">All Weeks</option>
+                    </select>
+                </div>
+
+                <button id="applyFilters" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+                <button id="resetFilters" class="btn btn-secondary">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </section>
+
+        <!-- Homework Grid -->
+        <section class="homework-section">
+            <div class="homework-header">
+                <h2><i class="fas fa-tasks"></i> Homework Assignments</h2>
+                <span id="resultCount" class="result-count">0 assignments found</span>
+            </div>
+            <div id="homeworkGrid" class="homework-grid">
+                <!-- Homework cards will be dynamically inserted here -->
+            </div>
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Loading...
+            </div>
+        </section>
+    </div>
+
+    <!-- Question Detail Modal -->
+    <div id="questionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="questionDetail">
+                <!-- Question details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

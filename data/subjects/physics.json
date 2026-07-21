@@ -1,0 +1,33 @@
+{
+  "subject": "Physics",
+  "homework": [
+    {
+      "id": "hw_ph_001",
+      "class": "8",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "What is the SI unit of force?",
+      "options": ["Newton", "Joule", "Watt", "Pascal"],
+      "correct_answer": "A",
+      "marks": 1,
+      "date": "2024-01-15",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Named after Sir Isaac Newton"
+    },
+    {
+      "id": "hw_ph_002",
+      "class": "9",
+      "subject": "physics",
+      "type": "saq",
+      "question": "Define acceleration and provide its formula.",
+      "marks": 5,
+      "date": "2024-01-16",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Rate of change of velocity"
+    }
+  ]
+}

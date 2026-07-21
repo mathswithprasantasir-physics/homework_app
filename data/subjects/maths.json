@@ -1,0 +1,46 @@
+{
+  "subject": "Maths",
+  "homework": [
+    {
+      "id": "hw_001",
+      "class": "8",
+      "subject": "maths",
+      "type": "mcqs",
+      "question": "What is the value of x in the equation 2x + 3 = 7?",
+      "options": ["1", "2", "3", "4"],
+      "correct_answer": "B",
+      "marks": 1,
+      "date": "2024-01-15",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Subtract 3 from both sides"
+    },
+    {
+      "id": "hw_002",
+      "class": "9",
+      "subject": "maths",
+      "type": "saq",
+      "question": "Explain the Pythagorean theorem with an example.",
+      "marks": 5,
+      "date": "2024-01-16",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Think about right-angled triangles"
+    },
+    {
+      "id": "hw_003",
+      "class": "10",
+      "subject": "maths",
+      "type": "laq",
+      "question": "Solve the quadratic equation: x² - 5x + 6 = 0 and explain the steps.",
+      "marks": 10,
+      "date": "2024-01-17",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Use factorization method"
+    }
+  ]
+}
