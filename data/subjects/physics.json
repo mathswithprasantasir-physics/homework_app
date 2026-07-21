@@ -7,7 +7,25 @@
       "subject": "physics",
       "type": "mcqs",
       "question": "What is the SI unit of force?",
-      "options": ["Newton", "Joule", "Watt", "Pascal"],
+      "question_image": null,
+      "options": [
+        {
+          "text": "Newton",
+          "image": null
+        },
+        {
+          "text": "Joule",
+          "image": null
+        },
+        {
+          "text": "Watt",
+          "image": null
+        },
+        {
+          "text": "Pascal",
+          "image": null
+        }
+      ],
       "correct_answer": "A",
       "marks": 1,
       "date": "2024-01-15",
@@ -22,12 +40,112 @@
       "subject": "physics",
       "type": "saq",
       "question": "Define acceleration and provide its formula.",
+      "question_image": null,
       "marks": 5,
       "date": "2024-01-16",
       "week": 3,
       "has_image": false,
       "image_path": null,
       "hint": "Rate of change of velocity"
+    },
+    {
+      "id": "hw_ph_003",
+      "class": "10",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "Look at the diagram below. Which type of force is being applied?",
+      "question_image": "/static/uploads/images/physics_diagram_001.jpg",
+      "options": [
+        {
+          "text": "Gravitational Force - The force that pulls objects toward Earth",
+          "image": "/static/uploads/images/gravity_force.jpg"
+        },
+        {
+          "text": "Magnetic Force - The force between magnetic objects",
+          "image": "/static/uploads/images/magnetic_force.jpg"
+        },
+        {
+          "text": "Frictional Force - The force that opposes motion between surfaces",
+          "image": "/static/uploads/images/friction_force.jpg"
+        },
+        {
+          "text": "Tension Force - The force transmitted through a rope or string",
+          "image": "/static/uploads/images/tension_force.jpg"
+        }
+      ],
+      "correct_answer": "C",
+      "marks": 2,
+      "date": "2024-01-15",
+      "week": 3,
+      "has_image": true,
+      "image_path": "/static/uploads/images/physics_diagram_001.jpg",
+      "hint": "Look at the direction of the arrow in the diagram"
+    },
+    {
+      "id": "hw_ph_004",
+      "class": "10",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "Which circuit diagram correctly shows a parallel circuit?",
+      "question_image": "/static/uploads/images/circuit_question.jpg",
+      "options": [
+        {
+          "text": "Series Circuit - Components connected in a single path",
+          "image": "/static/uploads/images/series_circuit.jpg"
+        },
+        {
+          "text": "Parallel Circuit - Components connected in multiple paths",
+          "image": "/static/uploads/images/parallel_circuit.jpg"
+        },
+        {
+          "text": "Series-Parallel Circuit - Combination of both",
+          "image": "/static/uploads/images/series_parallel_circuit.jpg"
+        },
+        {
+          "text": "Short Circuit - Direct connection with no resistance",
+          "image": "/static/uploads/images/short_circuit.jpg"
+        }
+      ],
+      "correct_answer": "B",
+      "marks": 2,
+      "date": "2024-01-16",
+      "week": 3,
+      "has_image": true,
+      "image_path": "/static/uploads/images/circuit_question.jpg",
+      "hint": "Look for multiple paths for current flow"
+    },
+    {
+      "id": "hw_ph_005",
+      "class": "9",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "Identify the correct symbol for the electrical component shown below:",
+      "question_image": "/static/uploads/images/electrical_symbols_question.jpg",
+      "options": [
+        {
+          "text": "Resistor - Opposition to current flow",
+          "image": "/static/uploads/images/resistor_symbol.jpg"
+        },
+        {
+          "text": "Battery - Source of electrical energy",
+          "image": "/static/uploads/images/battery_symbol.jpg"
+        },
+        {
+          "text": "Switch - Controls the flow of current",
+          "image": "/static/uploads/images/switch_symbol.jpg"
+        },
+        {
+          "text": "Bulb - Converts electrical energy to light",
+          "image": "/static/uploads/images/bulb_symbol.jpg"
+        }
+      ],
+      "correct_answer": "A",
+      "marks": 1,
+      "date": "2024-01-17",
+      "week": 3,
+      "has_image": true,
+      "image_path": "/static/uploads/images/electrical_symbols_question.jpg",
+      "hint": "Look at the zigzag pattern in the symbol"
     }
   ]
 }
