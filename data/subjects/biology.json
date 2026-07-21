@@ -1,0 +1,71 @@
+{
+    "subject": "Biology",
+    "homework": [
+      {
+        "id": "hw_bio_001",
+        "class": "10",
+        "subject": "biology",
+        "type": "mcqs",
+        "question": "Identify the cell organelle shown in the image:",
+        "question_image": "/static/uploads/images/cell_organelle_question.jpg",
+        "options": [
+          {
+            "text": "Mitochondria - The powerhouse of the cell",
+            "image": "/static/uploads/images/mitochondria.jpg"
+          },
+          {
+            "text": "Nucleus - The control center of the cell",
+            "image": "/static/uploads/images/nucleus.jpg"
+          },
+          {
+            "text": "Ribosome - The protein factory of the cell",
+            "image": "/static/uploads/images/ribosome.jpg"
+          },
+          {
+            "text": "Golgi Apparatus - The packaging center of the cell",
+            "image": "/static/uploads/images/golgi_apparatus.jpg"
+          }
+        ],
+        "correct_answer": "A",
+        "marks": 2,
+        "date": "2024-01-15",
+        "week": 3,
+        "has_image": true,
+        "image_path": "/static/uploads/images/cell_organelle_question.jpg",
+        "hint": "Look for the folded inner membrane"
+      },
+      {
+        "id": "hw_bio_002",
+        "class": "9",
+        "subject": "biology",
+        "type": "mcqs",
+        "question": "Which type of plant tissue is shown in the microscopic image?",
+        "question_image": "/static/uploads/images/plant_tissue_question.jpg",
+        "options": [
+          {
+            "text": "Xylem - Conducts water and minerals upward",
+            "image": "/static/uploads/images/xylem_tissue.jpg"
+          },
+          {
+            "text": "Phloem - Conducts food downward",
+            "image": "/static/uploads/images/phloem_tissue.jpg"
+          },
+          {
+            "text": "Epidermis - Outer protective layer",
+            "image": "/static/uploads/images/epidermis_tissue.jpg"
+          },
+          {
+            "text": "Cortex - Storage tissue in plants",
+            "image": "/static/uploads/images/cortex_tissue.jpg"
+          }
+        ],
+        "correct_answer": "A",
+        "marks": 2,
+        "date": "2024-01-16",
+        "week": 3,
+        "has_image": true,
+        "image_path": "/static/uploads/images/plant_tissue_question.jpg",
+        "hint": "Look for the tube-like structures"
+      }
+    ]
+  }
