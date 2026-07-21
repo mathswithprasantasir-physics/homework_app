@@ -391,3 +391,34 @@ def init_db():
 if __name__ == '__main__':
     init_db()
     app.run(debug=True, port=5000)
+
+# Initialize database before first request
+@app.before_request
+def before_first_request():
+    db.create_all()
+    
+    # Create admin user if not exists
+    if not User.query.filter_by(username='admin').first():
+        admin = User(
+            username='admin',
+            is_admin=True
+        )
+        admin.set_password('admin123')  # CHANGE THIS PASSWORD!
+        db.session.add(admin)
+    
+    # Create sample subjects if not exists
+    if not Subject.query.first():
+        subjects_data = [
+            ('Mathematics', '5'), ('Mathematics', '6'), ('Mathematics', '7'),
+            ('Mathematics', '8'), ('Mathematics', '9'), ('Mathematics', '10'),
+            ('Mathematics', '11'), ('Mathematics', '12'),
+            ('Physics', '9'), ('Physics', '10'), ('Physics', '11'), ('Physics', '12'),
+            ('Chemistry', '9'), ('Chemistry', '10'), ('Chemistry', '11'), ('Chemistry', '12'),
+            ('Biology', '9'), ('Biology', '10'), ('Biology', '11'), ('Biology', '12'),
+        ]
+        
+        for name, level in subjects_data:
+            subject = Subject(name=name, class_level=level)
+            db.session.add(subject)
+    
+    db.session.commit()
