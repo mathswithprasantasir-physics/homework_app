@@ -40,7 +40,7 @@
       "subject": "physics",
       "type": "mcqs",
       "question": "The velocity of a projectile at the initial point A is \\( (2\\hat{i} + 3\\hat{j})\\text{m/s} \\). Its velocity (in m/s) at point B is",
-      "question_image": "/static/uploads/images/physics/projectile-motion/q2.png",
+      "question_image": "/static/uploads/images/physics/projectile-motion/q2.PNG",
       "options": [
         {
           "text": "\\( 2\\hat{i} - 3\\hat{j} \\)",
