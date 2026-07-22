@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTypes: 'script',
+                ignoreHtmlClass: 'no-mathjax'
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
 </head>
 <body>
     <div class="app-container">
@@ -112,5 +132,19 @@
     </div>
 
     <script src="/static/js/script.js"></script>
+    <script>
+        function renderMath() {
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise().catch(function(err) {
+                    console.log('MathJax error:', err);
+                });
+            }
+        }
+        
+        // Re-render after dynamic content
+        function reRenderMath() {
+            setTimeout(renderMath, 500);
+        }
+    </script>
 </body>
 </html>
