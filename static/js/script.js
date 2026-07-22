@@ -1,12 +1,55 @@
 // Global variables
 let currentHomework = [];
 
-// Initialize page
+// ============================================
+// LaTeX Rendering Functions
+// ============================================
+
+function renderMath() {
+    if (typeof renderMathInElement === 'function') {
+        try {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ],
+                throwOnError: false,
+                trust: true,
+                macros: {
+                    "\\R": "\\mathbb{R}",
+                    "\\N": "\\mathbb{N}",
+                    "\\Z": "\\mathbb{Z}",
+                    "\\Q": "\\mathbb{Q}"
+                }
+            });
+        } catch (e) {
+            console.log('LaTeX render error:', e);
+        }
+    }
+}
+
+function reRenderMath() {
+    setTimeout(renderMath, 300);
+}
+
+// ============================================
+// Initialize Page
+// ============================================
+
 document.addEventListener('DOMContentLoaded', function() {
     loadFilters();
     loadHomework();
     setupEventListeners();
+    
+    // Initial LaTeX render after page load
+    setTimeout(renderMath, 1000);
 });
+
+// ============================================
+// Setup Event Listeners
+// ============================================
 
 function setupEventListeners() {
     // Apply filters
@@ -46,6 +89,10 @@ function setupEventListeners() {
     document.getElementById('loadHomework')?.addEventListener('click', loadManageHomework);
 }
 
+// ============================================
+// Load Filters
+// ============================================
+
 function loadFilters() {
     // Load classes
     fetch('/api/classes')
@@ -55,15 +102,20 @@ function loadFilters() {
             const hwClass = document.getElementById('hwClass');
             const manageClass = document.getElementById('manageClass');
             
+            if (classFilter) {
+                classFilter.innerHTML = '<option value="">All Classes</option>';
+            }
+            
             classes.forEach(cls => {
                 const option = document.createElement('option');
                 option.value = cls.class;
                 option.textContent = `Class ${cls.class}`;
-                classFilter.appendChild(option.cloneNode(true));
+                if (classFilter) classFilter.appendChild(option.cloneNode(true));
                 if (hwClass) hwClass.appendChild(option.cloneNode(true));
                 if (manageClass) manageClass.appendChild(option.cloneNode(true));
             });
-        });
+        })
+        .catch(error => console.error('Error loading classes:', error));
     
     // Load subjects
     fetch('/api/subjects')
@@ -73,35 +125,49 @@ function loadFilters() {
             const hwSubject = document.getElementById('hwSubject');
             const manageSubject = document.getElementById('manageSubject');
             
+            if (subjectFilter) {
+                subjectFilter.innerHTML = '<option value="">All Subjects</option>';
+            }
+            
             subjects.forEach(subject => {
                 const option = document.createElement('option');
                 option.value = subject.toLowerCase();
                 option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
-                subjectFilter.appendChild(option.cloneNode(true));
+                if (subjectFilter) subjectFilter.appendChild(option.cloneNode(true));
                 if (hwSubject) hwSubject.appendChild(option.cloneNode(true));
                 if (manageSubject) manageSubject.appendChild(option.cloneNode(true));
             });
-        });
+        })
+        .catch(error => console.error('Error loading subjects:', error));
     
     // Load weeks
     fetch('/api/weeks')
         .then(response => response.json())
         .then(weeks => {
             const weekFilter = document.getElementById('weekFilter');
+            if (weekFilter) {
+                weekFilter.innerHTML = '<option value="">All Weeks</option>';
+            }
+            
             weeks.forEach(week => {
                 const option = document.createElement('option');
                 option.value = week.week_number;
                 option.textContent = week.label;
-                weekFilter.appendChild(option);
+                if (weekFilter) weekFilter.appendChild(option);
             });
-        });
+        })
+        .catch(error => console.error('Error loading weeks:', error));
 }
 
+// ============================================
+// Load Homework with Filters
+// ============================================
+
 function loadHomework() {
-    const classFilter = document.getElementById('classFilter').value;
-    const subjectFilter = document.getElementById('subjectFilter').value;
-    const typeFilter = document.getElementById('typeFilter').value;
-    const weekFilter = document.getElementById('weekFilter').value;
+    const classFilter = document.getElementById('classFilter')?.value || '';
+    const subjectFilter = document.getElementById('subjectFilter')?.value || '';
+    const typeFilter = document.getElementById('typeFilter')?.value || '';
+    const weekFilter = document.getElementById('weekFilter')?.value || '';
     
     const params = new URLSearchParams();
     if (classFilter) params.append('class', classFilter);
@@ -118,6 +184,9 @@ function loadHomework() {
             displayHomework(homework);
             updateResultCount(homework.length);
             showLoading(false);
+            
+            // Re-render LaTeX after loading
+            reRenderMath();
         })
         .catch(error => {
             console.error('Error loading homework:', error);
@@ -125,6 +194,10 @@ function loadHomework() {
             showError('Failed to load homework. Please try again.');
         });
 }
+
+// ============================================
+// Display Homework Cards
+// ============================================
 
 function displayHomework(homework) {
     const grid = document.getElementById('homeworkGrid');
@@ -141,25 +214,44 @@ function displayHomework(homework) {
         return;
     }
     
-    grid.innerHTML = homework.map(hw => `
-        <div class="homework-card" onclick="showQuestionDetail('${hw.id}')">
-            <span class="badge badge-${hw.type}">${hw.type.toUpperCase()}</span>
-            <span class="subject-tag">${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}</span>
-            <h3>Class ${hw.class}</h3>
-            <p class="question-text">${hw.question}</p>
-            ${hw.question_image ? `<img src="${hw.question_image}" alt="Question image" class="question-image">` : ''}
-            <div class="meta">
-                <span><i class="fas fa-star"></i> ${hw.marks || 1} marks</span>
-                <span><i class="fas fa-calendar"></i> ${hw.date || 'No date'}</span>
-                ${hw.type === 'mcqs' && hw.options ? `<span><i class="fas fa-list"></i> ${hw.options.length} options</span>` : ''}
+    grid.innerHTML = homework.map(hw => {
+        // Handle options display
+        let optionsCount = 0;
+        if (hw.type === 'mcqs' && hw.options) {
+            optionsCount = hw.options.length;
+        }
+        
+        return `
+            <div class="homework-card" onclick="showQuestionDetail('${hw.id}')">
+                <span class="badge badge-${hw.type}">${hw.type.toUpperCase()}</span>
+                <span class="subject-tag">${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}</span>
+                <h3>Class ${hw.class}</h3>
+                <div class="question-text">${hw.question}</div>
+                ${hw.question_image ? `<img src="${hw.question_image}" alt="Question image" class="question-image">` : ''}
+                <div class="meta">
+                    <span><i class="fas fa-star"></i> ${hw.marks || 1} marks</span>
+                    <span><i class="fas fa-calendar"></i> ${hw.date || 'No date'}</span>
+                    ${optionsCount > 0 ? `<span><i class="fas fa-list"></i> ${optionsCount} options</span>` : ''}
+                    ${hw.has_image ? `<span><i class="fas fa-image"></i> Has image</span>` : ''}
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
+    
+    // Re-render LaTeX for new content
+    reRenderMath();
 }
+
+// ============================================
+// Show Question Detail in Modal
+// ============================================
 
 function showQuestionDetail(hwId) {
     const hw = currentHomework.find(h => h.id === hwId);
-    if (!hw) return;
+    if (!hw) {
+        showError('Homework not found');
+        return;
+    }
     
     const modal = document.getElementById('questionModal');
     const detail = document.getElementById('questionDetail');
@@ -171,15 +263,21 @@ function showQuestionDetail(hwId) {
                 <h4>Options:</h4>
                 ${hw.options.map((opt, idx) => {
                     const letter = String.fromCharCode(65 + idx);
+                    const text = typeof opt === 'string' ? opt : opt.text || '';
+                    const image = typeof opt === 'object' ? opt.image : null;
                     const isCorrect = hw.correct_answer === letter;
+                    
+                    // Check if option has image
+                    const hasOptionImage = image && image !== 'null' && image !== 'None';
+                    
                     return `
-                        <div style="padding: 10px 12px; margin: 8px 0; background: ${isCorrect ? '#d4edda' : 'var(--light-gray)'}; border-radius: 6px; border-left: 4px solid ${isCorrect ? '#28a745' : '#ddd'};">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <strong>${letter}.</strong>
-                                <span>${opt.text || ''}</span>
-                                ${isCorrect ? ' ✅' : ''}
+                        <div style="padding: 12px 15px; margin: 10px 0; background: ${isCorrect ? '#d4edda' : 'var(--light-gray)'}; border-radius: 8px; border-left: 4px solid ${isCorrect ? '#28a745' : '#ddd'};">
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <strong style="font-size: 1.1rem;">${letter}.</strong>
+                                <span style="flex: 1;">${text}</span>
+                                ${isCorrect ? ' <span style="color: #28a745; font-weight: bold;">✅ Correct</span>' : ''}
                             </div>
-                            ${opt.image ? `<img src="${opt.image}" alt="Option ${letter}" style="max-width: 100px; max-height: 80px; margin-top: 5px; border-radius: 4px;">` : ''}
+                            ${hasOptionImage ? `<div style="margin-top: 8px;"><img src="${image}" alt="Option ${letter}" style="max-width: 150px; max-height: 100px; border-radius: 6px; border: 1px solid #ddd;"></div>` : ''}
                         </div>
                     `;
                 }).join('')}
@@ -192,33 +290,61 @@ function showQuestionDetail(hwId) {
             <span class="badge badge-${hw.type}">${hw.type.toUpperCase()}</span>
             <span class="subject-tag">${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}</span>
             <span class="subject-tag">Class ${hw.class}</span>
+            ${hw.marks ? `<span class="subject-tag"><i class="fas fa-star"></i> ${hw.marks} marks</span>` : ''}
         </div>
-        <h2 style="margin-bottom: 15px;">${hw.question}</h2>
-        ${hw.question_image ? `<img src="${hw.question_image}" alt="Question image" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">` : ''}
+        <div style="margin-bottom: 15px; font-size: 1.15rem; line-height: 1.8;">
+            <strong>Question:</strong><br>
+            ${hw.question}
+        </div>
+        ${hw.question_image ? `<div style="margin: 15px 0;"><img src="${hw.question_image}" alt="Question image" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;"></div>` : ''}
         ${optionsHTML}
-        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--light-gray);">
-            <p><strong>Marks:</strong> ${hw.marks || 1}</p>
-            <p><strong>Date:</strong> ${hw.date || 'No date'}</p>
-            ${hw.hint ? `<p><strong>Hint:</strong> ${hw.hint}</p>` : ''}
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--light-gray);">
+            <p><strong><i class="fas fa-calendar"></i> Date:</strong> ${hw.date || 'Not specified'}</p>
+            ${hw.hint ? `<p><strong><i class="fas fa-lightbulb"></i> Hint:</strong> ${hw.hint}</p>` : ''}
+            ${hw.week ? `<p><strong><i class="fas fa-calendar-week"></i> Week:</strong> ${hw.week}</p>` : ''}
         </div>
     `;
     
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
+    
+    // Re-render LaTeX for modal content
+    setTimeout(renderMath, 500);
 }
+
+// ============================================
+// Modal Functions
+// ============================================
 
 function closeModal() {
-    document.getElementById('questionModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const modal = document.getElementById('questionModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
+// ============================================
+// Filter Functions
+// ============================================
+
 function resetFilters() {
-    document.getElementById('classFilter').value = '';
-    document.getElementById('subjectFilter').value = '';
-    document.getElementById('typeFilter').value = '';
-    document.getElementById('weekFilter').value = '';
+    const classFilter = document.getElementById('classFilter');
+    const subjectFilter = document.getElementById('subjectFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const weekFilter = document.getElementById('weekFilter');
+    
+    if (classFilter) classFilter.value = '';
+    if (subjectFilter) subjectFilter.value = '';
+    if (typeFilter) typeFilter.value = '';
+    if (weekFilter) weekFilter.value = '';
+    
     loadHomework();
 }
+
+// ============================================
+// UI Helper Functions
+// ============================================
 
 function showLoading(show) {
     const spinner = document.getElementById('loadingSpinner');
@@ -235,13 +361,23 @@ function updateResultCount(count) {
 }
 
 function showError(message) {
-    alert(message);
+    // Simple alert for now - can be improved with a toast notification
+    alert('❌ Error: ' + message);
 }
 
-// Image upload functions
+function showSuccess(message) {
+    alert('✅ Success: ' + message);
+}
+
+// ============================================
+// Image Upload Functions
+// ============================================
+
 function handleQuestionImagePreview(e) {
     const file = e.target.files[0];
     const preview = document.getElementById('questionImagePreview');
+    if (!preview) return;
+    
     preview.innerHTML = '';
     
     if (file) {
@@ -253,6 +389,7 @@ function handleQuestionImagePreview(e) {
             img.style.maxHeight = '150px';
             img.style.borderRadius = '8px';
             img.style.border = '2px solid var(--light-gray)';
+            img.style.marginTop = '10px';
             preview.appendChild(img);
         };
         reader.readAsDataURL(file);
@@ -264,38 +401,51 @@ function handleOptionImagePreview(e) {
     const optionIndex = e.target.dataset.option;
     const preview = document.getElementById(`optionPreview${optionIndex}`);
     
-    if (preview) {
-        preview.innerHTML = '';
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = document.createElement('img');
-                img.src = event.target.result;
-                img.style.maxWidth = '100px';
-                img.style.maxHeight = '80px';
-                img.style.borderRadius = '4px';
-                img.style.border = '2px solid var(--light-gray)';
-                img.style.marginTop = '5px';
-                preview.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        }
+    if (!preview) return;
+    
+    preview.innerHTML = '';
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.style.maxWidth = '100px';
+            img.style.maxHeight = '80px';
+            img.style.borderRadius = '4px';
+            img.style.border = '2px solid var(--light-gray)';
+            img.style.marginTop = '5px';
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
     }
 }
 
-// Admin functions
+// ============================================
+// Admin Functions
+// ============================================
+
 function switchTab(e) {
     const tab = e.target.dataset.tab;
+    if (!tab) return;
+    
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
+    
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    document.getElementById(`${tab}Tab`).classList.add('active');
+    const tabContent = document.getElementById(`${tab}Tab`);
+    if (tabContent) {
+        tabContent.classList.add('active');
+    }
 }
 
 function toggleOptions() {
-    const type = document.getElementById('hwType').value;
+    const type = document.getElementById('hwType');
     const optionsGroup = document.getElementById('optionsGroup');
-    optionsGroup.style.display = type === 'mcqs' ? 'block' : 'none';
+    
+    if (!type || !optionsGroup) return;
+    
+    optionsGroup.style.display = type.value === 'mcqs' ? 'block' : 'none';
 }
 
 function getOptionsWithImages() {
@@ -324,20 +474,33 @@ function getOptionsWithImages() {
     return options;
 }
 
+function getCorrectAnswer() {
+    const radio = document.querySelector('input[name="correctOption"]:checked');
+    if (radio) {
+        const index = parseInt(radio.value);
+        return String.fromCharCode(65 + index);
+    }
+    return null;
+}
+
+// ============================================
+// Add Homework
+// ============================================
+
 function handleAddHomework(e) {
     e.preventDefault();
     
-    const classVal = document.getElementById('hwClass').value;
-    const subject = document.getElementById('hwSubject').value;
-    const type = document.getElementById('hwType').value;
-    const question = document.getElementById('hwQuestion').value;
-    const marks = document.getElementById('hwMarks').value;
-    const date = document.getElementById('hwDate').value;
-    const hint = document.getElementById('hwHint').value;
-    const questionImageFile = document.getElementById('hwQuestionImage').files[0];
+    const classVal = document.getElementById('hwClass')?.value;
+    const subject = document.getElementById('hwSubject')?.value;
+    const type = document.getElementById('hwType')?.value;
+    const question = document.getElementById('hwQuestion')?.value;
+    const marks = document.getElementById('hwMarks')?.value;
+    const date = document.getElementById('hwDate')?.value;
+    const hint = document.getElementById('hwHint')?.value;
+    const questionImageFile = document.getElementById('hwQuestionImage')?.files[0];
     
     if (!classVal || !subject || !type || !question) {
-        alert('Please fill in all required fields');
+        showError('Please fill in all required fields (Class, Subject, Type, Question)');
         return;
     }
     
@@ -353,7 +516,7 @@ function handleAddHomework(e) {
         
         options.push({
             text: text,
-            image: null, // Will be set after upload
+            image: null,
             imageFile: imageFile
         });
     });
@@ -362,60 +525,37 @@ function handleAddHomework(e) {
     const correctRadio = document.querySelector('input[name="correctOption"]:checked');
     const correctAnswer = correctRadio ? String.fromCharCode(65 + parseInt(correctRadio.value)) : null;
     
-    // Upload question image if exists
-    let questionImagePath = null;
+    // Check if this is an update or add
+    const submitBtn = document.querySelector('#addHomeworkForm button[type="submit"]');
+    const isUpdate = submitBtn && submitBtn.dataset.editId;
     
-    // Function to submit with all data
-    function submitHomeworkWithData(questionImagePath, optionImages) {
-        const finalOptions = options.map((opt, idx) => ({
-            text: opt.text,
-            image: optionImages[idx] || null
-        }));
-        
-        const data = {
-            class: classVal,
-            subject: subject,
-            type: type,
-            question: question,
-            question_image: questionImagePath,
-            options: finalOptions,
-            correct_answer: correctAnswer,
-            marks: marks,
-            date: date,
-            hint: hint
-        };
-        
-        fetch('/api/add_homework', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert('Homework added successfully!');
-                document.getElementById('addHomeworkForm').reset();
-                document.querySelectorAll('.image-preview, .option-preview').forEach(el => el.innerHTML = '');
-                loadHomework();
-                loadManageHomework();
-            } else {
-                alert('Failed to add homework: ' + (result.error || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            alert('Error adding homework: ' + error.message);
-        });
+    if (isUpdate) {
+        updateHomework(submitBtn.dataset.editId);
+        return;
     }
     
-    // Upload images
+    // Upload images and submit
+    uploadImagesAndSubmit({
+        class: classVal,
+        subject: subject,
+        type: type,
+        question: question,
+        marks: marks,
+        date: date,
+        hint: hint,
+        questionImageFile: questionImageFile,
+        options: options,
+        correctAnswer: correctAnswer
+    });
+}
+
+function uploadImagesAndSubmit(data) {
     let imagesToUpload = [];
     
     // Check if question image needs upload
-    if (questionImageFile) {
+    if (data.questionImageFile) {
         const formData = new FormData();
-        formData.append('image', questionImageFile);
+        formData.append('image', data.questionImageFile);
         imagesToUpload.push({
             type: 'question',
             data: formData
@@ -423,7 +563,7 @@ function handleAddHomework(e) {
     }
     
     // Check if option images need upload
-    options.forEach((opt, index) => {
+    data.options.forEach((opt, index) => {
         if (opt.imageFile) {
             const formData = new FormData();
             formData.append('image', opt.imageFile);
@@ -437,7 +577,7 @@ function handleAddHomework(e) {
     
     // If no images to upload, submit directly
     if (imagesToUpload.length === 0) {
-        submitHomeworkWithData(null, []);
+        submitHomeworkData(data, null, []);
         return;
     }
     
@@ -445,7 +585,7 @@ function handleAddHomework(e) {
     let uploadedImages = {};
     let uploadCount = 0;
     
-    imagesToUpload.forEach((item, idx) => {
+    imagesToUpload.forEach((item) => {
         fetch('/api/upload_image', {
             method: 'POST',
             body: item.data
@@ -463,69 +603,141 @@ function handleAddHomework(e) {
             
             // If all images are uploaded, submit the homework
             if (uploadCount === imagesToUpload.length) {
-                const optionImagePaths = options.map((_, idx) => uploadedImages[idx] || null);
-                submitHomeworkWithData(
+                const optionImagePaths = data.options.map((_, idx) => uploadedImages[idx] || null);
+                submitHomeworkData(
+                    data,
                     uploadedImages.question || null,
                     optionImagePaths
                 );
             }
         })
         .catch(error => {
-            alert('Error uploading image: ' + error.message);
+            console.error('Error uploading image:', error);
+            showError('Error uploading image: ' + error.message);
             uploadCount++;
         });
     });
 }
 
+function submitHomeworkData(data, questionImagePath, optionImages) {
+    const finalOptions = data.options.map((opt, idx) => ({
+        text: opt.text,
+        image: optionImages[idx] || null
+    }));
+    
+    const submitData = {
+        class: data.class,
+        subject: data.subject,
+        type: data.type,
+        question: data.question,
+        question_image: questionImagePath,
+        options: finalOptions,
+        correct_answer: data.correctAnswer,
+        marks: data.marks || 1,
+        date: data.date || new Date().toISOString().split('T')[0],
+        hint: data.hint || ''
+    };
+    
+    fetch('/api/add_homework', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submitData)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showSuccess('Homework added successfully!');
+            document.getElementById('addHomeworkForm').reset();
+            document.querySelectorAll('.image-preview, .option-preview').forEach(el => {
+                if (el) el.innerHTML = '';
+            });
+            loadHomework();
+            loadManageHomework();
+            
+            // Re-render LaTeX
+            reRenderMath();
+        } else {
+            showError('Failed to add homework: ' + (result.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        showError('Error adding homework: ' + error.message);
+    });
+}
+
+// ============================================
+// Manage Homework
+// ============================================
+
 function loadManageHomework() {
-    const classFilter = document.getElementById('manageClass').value;
-    const subjectFilter = document.getElementById('manageSubject').value;
+    const classFilter = document.getElementById('manageClass')?.value || '';
+    const subjectFilter = document.getElementById('manageSubject')?.value || '';
     
     const params = new URLSearchParams();
     if (classFilter) params.append('class', classFilter);
     if (subjectFilter) params.append('subject', subjectFilter);
     
+    const list = document.getElementById('manageList');
+    if (!list) return;
+    
+    list.innerHTML = '<p style="text-align: center; color: var(--gray);">Loading...</p>';
+    
     fetch(`/api/homework?${params.toString()}`)
         .then(response => response.json())
         .then(homework => {
-            const list = document.getElementById('manageList');
             if (homework.length === 0) {
                 list.innerHTML = '<p style="text-align: center; color: var(--gray);">No homework found</p>';
                 return;
             }
             
-            list.innerHTML = homework.map(hw => `
-                <div class="manage-item">
-                    <div class="item-info">
-                        <strong>Class ${hw.class}</strong> - ${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}
-                        <br>
-                        <small>${hw.type.toUpperCase()}: ${hw.question.substring(0, 50)}${hw.question.length > 50 ? '...' : ''}</small>
-                        <br>
-                        <small>
-                            ${hw.question_image ? '<i class="fas fa-image" style="color: var(--primary);"></i> Has image ' : ''}
-                            ${hw.options && hw.options.some(opt => opt.image) ? '<i class="fas fa-images" style="color: var(--secondary);"></i> Option images ' : ''}
-                        </small>
-                        <br>
-                        <small>Date: ${hw.date || 'No date'} | Marks: ${hw.marks || 1}</small>
+            list.innerHTML = homework.map(hw => {
+                const hasQuestionImage = hw.question_image && hw.question_image !== 'null' && hw.question_image !== 'None';
+                const hasOptionImages = hw.options && hw.options.some(opt => opt.image && opt.image !== 'null' && opt.image !== 'None');
+                
+                return `
+                    <div class="manage-item">
+                        <div class="item-info">
+                            <strong>Class ${hw.class}</strong> - ${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}
+                            <br>
+                            <small><strong>${hw.type.toUpperCase()}:</strong> ${hw.question.substring(0, 60)}${hw.question.length > 60 ? '...' : ''}</small>
+                            <br>
+                            <small>
+                                ${hasQuestionImage ? '<i class="fas fa-image" style="color: var(--primary);"></i> Has question image ' : ''}
+                                ${hasOptionImages ? '<i class="fas fa-images" style="color: var(--secondary);"></i> Has option images ' : ''}
+                                ${hw.options ? `<i class="fas fa-list"></i> ${hw.options.length} options` : ''}
+                            </small>
+                            <br>
+                            <small><i class="fas fa-calendar"></i> ${hw.date || 'No date'} | <i class="fas fa-star"></i> ${hw.marks || 1} marks</small>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="editHomework('${hw.id}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteHomework('${hw.id}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
                     </div>
-                    <div class="item-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="editHomework('${hw.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteHomework('${hw.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+            
+            // Re-render LaTeX
+            reRenderMath();
         })
         .catch(error => {
-            alert('Error loading homework: ' + error.message);
+            console.error('Error loading homework:', error);
+            list.innerHTML = '<p style="text-align: center; color: var(--danger);">Error loading homework. Please try again.</p>';
         });
 }
 
+// ============================================
+// Delete Homework
+// ============================================
+
 function deleteHomework(hwId) {
-    if (!confirm('Are you sure you want to delete this homework?')) return;
+    if (!confirm('⚠️ Are you sure you want to delete this homework? This action cannot be undone!')) return;
     
     fetch(`/api/delete_homework/${hwId}`, {
         method: 'DELETE'
@@ -533,60 +745,80 @@ function deleteHomework(hwId) {
     .then(response => response.json())
     .then(result => {
         if (result.success) {
-            alert('Homework deleted successfully!');
+            showSuccess('Homework deleted successfully!');
             loadManageHomework();
             loadHomework();
         } else {
-            alert('Failed to delete homework: ' + (result.error || 'Unknown error'));
+            showError('Failed to delete homework: ' + (result.error || 'Unknown error'));
         }
     })
     .catch(error => {
-        alert('Error deleting homework: ' + error.message);
+        showError('Error deleting homework: ' + error.message);
     });
 }
+
+// ============================================
+// Edit Homework
+// ============================================
 
 function editHomework(hwId) {
     const hw = currentHomework.find(h => h.id === hwId);
     if (!hw) {
-        alert('Homework not found');
+        showError('Homework not found');
         return;
     }
     
     // Switch to add tab
-    document.querySelector('[data-tab="add"]').click();
+    const addTabBtn = document.querySelector('[data-tab="add"]');
+    if (addTabBtn) {
+        addTabBtn.click();
+    }
     
     // Fill form with data
-    document.getElementById('hwClass').value = hw.class;
-    document.getElementById('hwSubject').value = hw.subject;
-    document.getElementById('hwType').value = hw.type;
-    document.getElementById('hwQuestion').value = hw.question;
-    document.getElementById('hwMarks').value = hw.marks || 1;
-    document.getElementById('hwDate').value = hw.date || '';
-    document.getElementById('hwHint').value = hw.hint || '';
+    const hwClass = document.getElementById('hwClass');
+    const hwSubject = document.getElementById('hwSubject');
+    const hwType = document.getElementById('hwType');
+    const hwQuestion = document.getElementById('hwQuestion');
+    const hwMarks = document.getElementById('hwMarks');
+    const hwDate = document.getElementById('hwDate');
+    const hwHint = document.getElementById('hwHint');
+    const questionImagePreview = document.getElementById('questionImagePreview');
+    
+    if (hwClass) hwClass.value = hw.class;
+    if (hwSubject) hwSubject.value = hw.subject;
+    if (hwType) hwType.value = hw.type;
+    if (hwQuestion) hwQuestion.value = hw.question;
+    if (hwMarks) hwMarks.value = hw.marks || 1;
+    if (hwDate) hwDate.value = hw.date || '';
+    if (hwHint) hwHint.value = hw.hint || '';
     
     // Show question image if exists
-    if (hw.question_image) {
-        const preview = document.getElementById('questionImagePreview');
-        preview.innerHTML = `
-            <img src="${hw.question_image}" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid var(--light-gray);">
+    if (questionImagePreview && hw.question_image) {
+        questionImagePreview.innerHTML = `
+            <img src="${hw.question_image}" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid var(--light-gray); margin-top: 10px;">
             <p><small>Current image</small></p>
         `;
     }
     
     // Handle options if MCQ
-    if (hw.type === 'mcqs' && hw.options) {
+    if (hw.type === 'mcqs' && hw.options && hw.options.length > 0) {
         toggleOptions();
-        const inputs = document.querySelectorAll('.option-text');
-        const previews = document.querySelectorAll('.option-preview');
+        const optionTexts = document.querySelectorAll('.option-text');
+        const optionPreviews = document.querySelectorAll('.option-preview');
         
         hw.options.forEach((opt, idx) => {
-            if (inputs[idx]) {
-                inputs[idx].value = opt.text || '';
+            if (optionTexts[idx]) {
+                const text = typeof opt === 'string' ? opt : opt.text || '';
+                optionTexts[idx].value = text;
             }
-            if (previews[idx] && opt.image) {
-                previews[idx].innerHTML = `
-                    <img src="${opt.image}" style="max-width: 100px; max-height: 80px; border-radius: 4px; border: 2px solid var(--light-gray);">
-                `;
+            
+            if (optionPreviews[idx]) {
+                const image = typeof opt === 'object' ? opt.image : null;
+                if (image && image !== 'null' && image !== 'None') {
+                    optionPreviews[idx].innerHTML = `
+                        <img src="${image}" style="max-width: 100px; max-height: 80px; border-radius: 4px; border: 2px solid var(--light-gray); margin-top: 5px;">
+                    `;
+                }
             }
         });
         
@@ -599,29 +831,87 @@ function editHomework(hwId) {
     
     // Change submit button to update
     const submitBtn = document.querySelector('#addHomeworkForm button[type="submit"]');
-    submitBtn.innerHTML = '<i class="fas fa-sync"></i> Update Homework';
-    submitBtn.dataset.editId = hwId;
+    if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fas fa-sync"></i> Update Homework';
+        submitBtn.dataset.editId = hwId;
+    }
     
     // Change form submit handler for update
     const form = document.getElementById('addHomeworkForm');
-    form.onsubmit = function(e) {
-        e.preventDefault();
-        updateHomework(hwId);
-    };
+    if (form) {
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            updateHomework(hwId);
+        };
+    }
+    
+    // Scroll to form
+    form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ============================================
+// Update Homework
+// ============================================
+
 function updateHomework(hwId) {
-    // Similar to add but with PUT request
+    // Collect form data
+    const classVal = document.getElementById('hwClass')?.value;
+    const subject = document.getElementById('hwSubject')?.value;
+    const type = document.getElementById('hwType')?.value;
+    const question = document.getElementById('hwQuestion')?.value;
+    const marks = document.getElementById('hwMarks')?.value;
+    const date = document.getElementById('hwDate')?.value;
+    const hint = document.getElementById('hwHint')?.value;
+    
+    if (!classVal || !subject || !type || !question) {
+        showError('Please fill in all required fields');
+        return;
+    }
+    
+    // Collect options
+    const options = [];
+    const optionTexts = document.querySelectorAll('.option-text');
+    const optionImageInputs = document.querySelectorAll('.option-image');
+    
+    optionTexts.forEach((input, index) => {
+        const text = input.value.trim();
+        const imageInput = optionImageInputs[index];
+        let imagePath = null;
+        
+        // If there's a preview image already, keep it
+        const preview = document.getElementById(`optionPreview${index}`);
+        if (preview) {
+            const existingImg = preview.querySelector('img');
+            if (existingImg) {
+                // This is a hack - we should store the image path
+                // For now, we'll assume if there's an image preview, it's already uploaded
+                imagePath = existingImg.src;
+            }
+        }
+        
+        if (text || imagePath) {
+            options.push({
+                text: text,
+                image: imagePath
+            });
+        }
+    });
+    
+    // Get correct answer
+    const correctRadio = document.querySelector('input[name="correctOption"]:checked');
+    const correctAnswer = correctRadio ? String.fromCharCode(65 + parseInt(correctRadio.value)) : null;
+    
     const data = {
-        class: document.getElementById('hwClass').value,
-        subject: document.getElementById('hwSubject').value,
-        type: document.getElementById('hwType').value,
-        question: document.getElementById('hwQuestion').value,
-        marks: document.getElementById('hwMarks').value,
-        date: document.getElementById('hwDate').value,
-        hint: document.getElementById('hwHint').value,
-        options: getOptionsWithImages(),
-        correct_answer: getCorrectAnswer()
+        class: classVal,
+        subject: subject,
+        type: type,
+        question: question,
+        question_image: document.getElementById('questionImagePreview')?.querySelector('img')?.src || null,
+        options: options,
+        correct_answer: correctAnswer,
+        marks: marks || 1,
+        date: date || new Date().toISOString().split('T')[0],
+        hint: hint || ''
     };
     
     fetch(`/api/update_homework/${hwId}`, {
@@ -634,36 +924,51 @@ function updateHomework(hwId) {
     .then(response => response.json())
     .then(result => {
         if (result.success) {
-            alert('Homework updated successfully!');
+            showSuccess('Homework updated successfully!');
+            
+            // Reset form
             document.getElementById('addHomeworkForm').reset();
-            document.querySelectorAll('.image-preview, .option-preview').forEach(el => el.innerHTML = '');
+            document.querySelectorAll('.image-preview, .option-preview').forEach(el => {
+                if (el) el.innerHTML = '';
+            });
+            
+            // Reset submit button
+            const submitBtn = document.querySelector('#addHomeworkForm button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Homework';
+                delete submitBtn.dataset.editId;
+            }
+            
+            // Reset form handler
+            const form = document.getElementById('addHomeworkForm');
+            if (form) {
+                form.onsubmit = handleAddHomework;
+            }
+            
             loadHomework();
             loadManageHomework();
             
-            // Reset form
-            const submitBtn = document.querySelector('#addHomeworkForm button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Homework';
-            delete submitBtn.dataset.editId;
-            document.getElementById('addHomeworkForm').onsubmit = handleAddHomework;
+            // Re-render LaTeX
+            reRenderMath();
         } else {
-            alert('Failed to update homework: ' + (result.error || 'Unknown error'));
+            showError('Failed to update homework: ' + (result.error || 'Unknown error'));
         }
     })
     .catch(error => {
-        alert('Error updating homework: ' + error.message);
+        showError('Error updating homework: ' + error.message);
     });
 }
 
-function getCorrectAnswer() {
-    const radio = document.querySelector('input[name="correctOption"]:checked');
-    if (radio) {
-        const index = parseInt(radio.value);
-        return String.fromCharCode(65 + index);
-    }
-    return null;
-}
+// ============================================
+// Export functions for global access
+// ============================================
 
-// Make functions globally accessible
 window.showQuestionDetail = showQuestionDetail;
 window.deleteHomework = deleteHomework;
 window.editHomework = editHomework;
+window.renderMath = renderMath;
+window.reRenderMath = reRenderMath;
+window.loadHomework = loadHomework;
+window.loadManageHomework = loadManageHomework;
+window.closeModal = closeModal;
+window.resetFilters = resetFilters;
