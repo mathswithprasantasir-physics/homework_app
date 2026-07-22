@@ -634,3 +634,82 @@ body {
     border-radius: 4px;
     object-fit: cover;
 }
+
+/* ✅ ADD: LaTeX rendering styles */
+.question-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin: 10px 0;
+    padding: 5px 0;
+}
+
+.question-text .katex {
+    font-size: 1.1em;
+}
+
+.katex-display {
+    margin: 1em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 5px 0;
+}
+
+/* For inline math in options */
+.option-text .katex {
+    font-size: 1em;
+}
+
+/* Math display in cards */
+.homework-card .question-text .katex {
+    font-size: 0.95em;
+}
+
+/* ✅ ADD: Modal LaTeX styles */
+#questionDetail .katex-display {
+    margin: 1.5em 0;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+#questionDetail .katex {
+    font-size: 1.1em;
+}
+
+/* ✅ ADD: Option LaTeX styles */
+.options-section .katex {
+    font-size: 1em;
+}
+
+.options-section .katex-display {
+    margin: 0.5em 0;
+    background: transparent;
+    padding: 5px 0;
+}
+
+/* Mobile friendly LaTeX */
+@media (max-width: 768px) {
+    .katex-display {
+        font-size: 0.9em;
+    }
+    
+    .question-text .katex {
+        font-size: 0.9em;
+    }
+    
+    #questionDetail .katex-display {
+        padding: 10px;
+        font-size: 0.85em;
+    }
+}
+
+/* ✅ ADD: LaTeX loading state */
+.latex-loading {
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.latex-loaded {
+    opacity: 1;
+}
