@@ -6,12 +6,13 @@
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "What is the exact value of \\( \\sin 18^\\circ \\)?",
+      "question": "What is the exact value of $\\sin 18^\\circ$?",
+      "question_image": null,
       "options": [
-        "\\( \\frac{\\sqrt{5}-1}{4} \\)",
-        "\\( \\frac{\\sqrt{5}+1}{4} \\)",
-        "\\( \\frac{\\sqrt{10-2\\sqrt{5}}}{4} \\)",
-        "\\( \\frac{\\sqrt{10+2\\sqrt{5}}}{4} \\)"
+        {"text": "$\\frac{\\sqrt{5}-1}{4}$", "image": null},
+        {"text": "$\\frac{\\sqrt{5}+1}{4}$", "image": null},
+        {"text": "$\\frac{\\sqrt{10-2\\sqrt{5}}}{4}$", "image": null},
+        {"text": "$\\frac{\\sqrt{10+2\\sqrt{5}}}{4}$", "image": null}
       ],
       "correct_answer": "A",
       "marks": 1,
@@ -19,19 +20,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Let \\( \\theta = 18^\\circ \\), then \\( 5\\theta = 90^\\circ \\). Use \\( 2\\theta = 90^\\circ - 3\\theta \\)."
+      "hint": "Let $\\theta = 18^\\circ$, then $5\\theta = 90^\\circ$. Use $2\\theta = 90^\\circ - 3\\theta$."
     },
     {
       "id": "hw_002",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "What is the value of \\( \\tan \\frac{\\pi}{8} \\)?",
+      "question": "What is the value of $\\tan \\frac{\\pi}{8}$?",
+      "question_image": null,
       "options": [
-        "\\( \\sqrt{2}+1 \\)",
-        "\\( \\sqrt{2}-1 \\)",
-        "\\( 2-\\sqrt{3} \\)",
-        "\\( 2+\\sqrt{3} \\)"
+        {"text": "$\\sqrt{2}+1$", "image": null},
+        {"text": "$\\sqrt{2}-1$", "image": null},
+        {"text": "$2-\\sqrt{3}$", "image": null},
+        {"text": "$2+\\sqrt{3}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -39,19 +41,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use the submultiple angle identity \\( \\tan \\frac{\\theta}{2} = \\frac{\\sin \\theta}{1 + \\cos \\theta} \\) with \\( \\theta = \\frac{\\pi}{4} \\)."
+      "hint": "Use $\\tan \\frac{\\theta}{2} = \\frac{\\sin \\theta}{1 + \\cos \\theta}$ with $\\theta = \\frac{\\pi}{4}$."
     },
     {
       "id": "hw_003",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Simplify \\( \\cos^2 x + \\cos^2\\left(x+\\frac{\\pi}{3}\\right) + \\cos^2\\left(x-\\frac{\\pi}{3}\\right) \\).",
+      "question": "Simplify $\\cos^2 x + \\cos^2\\left(x+\\frac{\\pi}{3}\\right) + \\cos^2\\left(x-\\frac{\\pi}{3}\\right)$.",
+      "question_image": null,
       "options": [
-        "\\( 1 \\)",
-        "\\( \\frac{3}{2} \\)",
-        "\\( 2 \\)",
-        "\\( \\frac{1}{2} \\)"
+        {"text": "$1$", "image": null},
+        {"text": "$\\frac{3}{2}$", "image": null},
+        {"text": "$2$", "image": null},
+        {"text": "$\\frac{1}{2}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -59,19 +62,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use \\( \\cos^2 \\theta = \\frac{1+\\cos 2\\theta}{2} \\) and expand the cosine sum."
+      "hint": "Use $\\cos^2 \\theta = \\frac{1+\\cos 2\\theta}{2}$ and expand the cosine sum."
     },
     {
       "id": "hw_004",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "For \\( 0 < \\theta < \\frac{\\pi}{8} \\), evaluate \\( \\sqrt{2+\\sqrt{2+2\\cos 4\\theta}} \\).",
+      "question": "For $0 < \\theta < \\frac{\\pi}{8}$, evaluate $\\sqrt{2+\\sqrt{2+2\\cos 4\\theta}}$.",
+      "question_image": null,
       "options": [
-        "\\( 2\\sin \\theta \\)",
-        "\\( \\sqrt{2}\\cos \\theta \\)",
-        "\\( 2\\cos \\theta \\)",
-        "\\( \\sqrt{2}\\sin \\theta \\)"
+        {"text": "$2\\sin \\theta$", "image": null},
+        {"text": "$\\sqrt{2}\\cos \\theta$", "image": null},
+        {"text": "$2\\cos \\theta$", "image": null},
+        {"text": "$\\sqrt{2}\\sin \\theta$", "image": null}
       ],
       "correct_answer": "C",
       "marks": 1,
@@ -79,19 +83,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Apply \\( 1 + \\cos 2A = 2\\cos^2 A \\) twice, starting from the innermost root."
+      "hint": "Apply $1 + \\cos 2A = 2\\cos^2 A$ twice, starting from the innermost root."
     },
     {
       "id": "hw_005",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Find the numerical value of \\( \\sin 12^\\circ \\sin 48^\\circ \\sin 54^\\circ \\).",
+      "question": "Find the numerical value of $\\sin 12^\\circ \\sin 48^\\circ \\sin 54^\\circ$.",
+      "question_image": null,
       "options": [
-        "\\( \\frac{1}{16} \\)",
-        "\\( \\frac{1}{8} \\)",
-        "\\( \\frac{1}{4} \\)",
-        "\\( \\frac{1}{2} \\)"
+        {"text": "$\\frac{1}{16}$", "image": null},
+        {"text": "$\\frac{1}{8}$", "image": null},
+        {"text": "$\\frac{1}{4}$", "image": null},
+        {"text": "$\\frac{1}{2}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -99,19 +104,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use \\( \\sin \\theta \\sin(60^\\circ-\\theta) \\sin(60^\\circ+\\theta) = \\frac{1}{4}\\sin 3\\theta \\)."
+      "hint": "Use $\\sin \\theta \\sin(60^\\circ-\\theta) \\sin(60^\\circ+\\theta) = \\frac{1}{4}\\sin 3\\theta$."
     },
     {
       "id": "hw_006",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "What is the equivalent expression for \\( \\frac{1-\\cos 2\\theta + \\sin 2\\theta}{1+\\cos 2\\theta + \\sin 2\\theta} \\)?",
+      "question": "What is the equivalent expression for $\\frac{1-\\cos 2\\theta + \\sin 2\\theta}{1+\\cos 2\\theta + \\sin 2\\theta}$?",
+      "question_image": null,
       "options": [
-        "\\( \\sin \\theta \\)",
-        "\\( \\cos \\theta \\)",
-        "\\( \\cot \\theta \\)",
-        "\\( \\tan \\theta \\)"
+        {"text": "$\\sin \\theta$", "image": null},
+        {"text": "$\\cos \\theta$", "image": null},
+        {"text": "$\\cot \\theta$", "image": null},
+        {"text": "$\\tan \\theta$", "image": null}
       ],
       "correct_answer": "D",
       "marks": 1,
@@ -119,19 +125,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Group terms and apply double angle formulas \\( 1-\\cos 2\\theta = 2\\sin^2 \\theta \\) and \\( 1+\\cos 2\\theta = 2\\cos^2 \\theta \\)."
+      "hint": "Group terms and apply $1-\\cos 2\\theta = 2\\sin^2 \\theta$ and $1+\\cos 2\\theta = 2\\cos^2 \\theta$."
     },
     {
       "id": "hw_007",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Simplify \\( \\tan \\theta + 2\\tan 2\\theta + 4\\tan 4\\theta + 8\\cot 8\\theta \\).",
+      "question": "Simplify $\\tan \\theta + 2\\tan 2\\theta + 4\\tan 4\\theta + 8\\cot 8\\theta$.",
+      "question_image": null,
       "options": [
-        "\\( \\tan \\theta \\)",
-        "\\( \\cot \\theta \\)",
-        "\\( 0 \\)",
-        "\\( 8\\tan 8\\theta \\)"
+        {"text": "$\\tan \\theta$", "image": null},
+        {"text": "$\\cot \\theta$", "image": null},
+        {"text": "$0$", "image": null},
+        {"text": "$8\\tan 8\\theta$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -139,19 +146,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use the identity \\( \\cot A - \\tan A = 2\\cot 2A \\) repeatedly from right to left."
+      "hint": "Use $\\cot A - \\tan A = 2\\cot 2A$ repeatedly from right to left."
     },
     {
       "id": "hw_008",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Calculate the value of \\( \\cos \\frac{\\pi}{7} \\cos \\frac{2\\pi}{7} \\cos \\frac{4\\pi}{7} \\).",
+      "question": "Calculate the value of $\\cos \\frac{\\pi}{7} \\cos \\frac{2\\pi}{7} \\cos \\frac{4\\pi}{7}$.",
+      "question_image": null,
       "options": [
-        "\\( \\frac{1}{8} \\)",
-        "\\( -\\frac{1}{8} \\)",
-        "\\( \\frac{1}{4} \\)",
-        "\\( -\\frac{1}{4} \\)"
+        {"text": "$\\frac{1}{8}$", "image": null},
+        {"text": "$-\\frac{1}{8}$", "image": null},
+        {"text": "$\\frac{1}{4}$", "image": null},
+        {"text": "$-\\frac{1}{4}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -159,19 +167,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Multiply and divide by \\( 2\\sin \\frac{\\pi}{7} \\) and apply the sine double angle formula successively."
+      "hint": "Multiply and divide by $2\\sin \\frac{\\pi}{7}$ and apply the sine double angle formula successively."
     },
     {
       "id": "hw_009",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Express \\( \\frac{\\sec 8\\theta - 1}{\\sec 4\\theta - 1} \\) in terms of tangents.",
+      "question": "Express $\\frac{\\sec 8\\theta - 1}{\\sec 4\\theta - 1}$ in terms of tangents.",
+      "question_image": null,
       "options": [
-        "\\( \\frac{\\tan 8\\theta}{\\tan 2\\theta} \\)",
-        "\\( \\frac{\\tan 4\\theta}{\\tan 2\\theta} \\)",
-        "\\( \\frac{\\tan 8\\theta}{\\tan 4\\theta} \\)",
-        "\\( \\frac{\\tan 2\\theta}{\\tan 8\\theta} \\)"
+        {"text": "$\\frac{\\tan 8\\theta}{\\tan 2\\theta}$", "image": null},
+        {"text": "$\\frac{\\tan 4\\theta}{\\tan 2\\theta}$", "image": null},
+        {"text": "$\\frac{\\tan 8\\theta}{\\tan 4\\theta}$", "image": null},
+        {"text": "$\\frac{\\tan 2\\theta}{\\tan 8\\theta}$", "image": null}
       ],
       "correct_answer": "A",
       "marks": 1,
@@ -179,19 +188,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Convert secant to cosine, simplify the fraction, and use \\( 1-\\cos 2A = 2\\sin^2 A \\)."
+      "hint": "Convert secant to cosine, simplify the fraction, and use $1-\\cos 2A = 2\\sin^2 A$."
     },
     {
       "id": "hw_010",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "What is the value of \\( \\tan 9^\\circ - \\tan 27^\\circ - \\tan 63^\\circ + \\tan 81^\\circ \\)?",
+      "question": "What is the value of $\\tan 9^\\circ - \\tan 27^\\circ - \\tan 63^\\circ + \\tan 81^\\circ$?",
+      "question_image": null,
       "options": [
-        "\\( 2 \\)",
-        "\\( 3 \\)",
-        "\\( 4 \\)",
-        "\\( 0 \\)"
+        {"text": "$2$", "image": null},
+        {"text": "$3$", "image": null},
+        {"text": "$4$", "image": null},
+        {"text": "$0$", "image": null}
       ],
       "correct_answer": "C",
       "marks": 1,
@@ -199,19 +209,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Group \\( (\\tan 81^\\circ + \\tan 9^\\circ) - (\\tan 63^\\circ + \\tan 27^\\circ) \\) and convert to sine/cosine."
+      "hint": "Group $(\\tan 81^\\circ + \\tan 9^\\circ) - (\\tan 63^\\circ + \\tan 27^\\circ)$ and convert to sine/cosine."
     },
     {
       "id": "hw_011",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Evaluate \\( \\sin^4 \\frac{\\pi}{8} + \\sin^4 \\frac{3\\pi}{8} + \\sin^4 \\frac{5\\pi}{8} + \\sin^4 \\frac{7\\pi}{8} \\).",
+      "question": "Evaluate $\\sin^4 \\frac{\\pi}{8} + \\sin^4 \\frac{3\\pi}{8} + \\sin^4 \\frac{5\\pi}{8} + \\sin^4 \\frac{7\\pi}{8}$.",
+      "question_image": null,
       "options": [
-        "\\( 1 \\)",
-        "\\( \\frac{3}{2} \\)",
-        "\\( 2 \\)",
-        "\\( \\frac{5}{2} \\)"
+        {"text": "$1$", "image": null},
+        {"text": "$\\frac{3}{2}$", "image": null},
+        {"text": "$2$", "image": null},
+        {"text": "$\\frac{5}{2}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -219,19 +230,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use \\( \\sin(\\pi - \\theta) = \\sin \\theta \\) and \\( \\sin(\\frac{\\pi}{2} - \\theta) = \\cos \\theta \\) to pair terms, then apply \\( \\sin^4 \\theta + \\cos^4 \\theta = 1 - 2\\sin^2 \\theta \\cos^2 \\theta \\)."
+      "hint": "Use $\\sin(\\pi - \\theta) = \\sin \\theta$ and $\\sin(\\frac{\\pi}{2} - \\theta) = \\cos \\theta$ to pair terms."
     },
     {
       "id": "hw_012",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "What is the exact value of \\( \\cos 36^\\circ - \\sin 18^\\circ \\)?",
+      "question": "What is the exact value of $\\cos 36^\\circ - \\sin 18^\\circ$?",
+      "question_image": null,
       "options": [
-        "\\( 1 \\)",
-        "\\( \\frac{1}{4} \\)",
-        "\\( \\frac{1}{2} \\)",
-        "\\( 0 \\)"
+        {"text": "$1$", "image": null},
+        {"text": "$\\frac{1}{4}$", "image": null},
+        {"text": "$\\frac{1}{2}$", "image": null},
+        {"text": "$0$", "image": null}
       ],
       "correct_answer": "C",
       "marks": 1,
@@ -239,19 +251,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Substitute the known standard values \\( \\cos 36^\\circ = \\frac{\\sqrt{5}+1}{4} \\) and \\( \\sin 18^\\circ = \\frac{\\sqrt{5}-1}{4} \\)."
+      "hint": "Use $\\cos 36^\\circ = \\frac{\\sqrt{5}+1}{4}$ and $\\sin 18^\\circ = \\frac{\\sqrt{5}-1}{4}$."
     },
     {
       "id": "hw_013",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "If \\( \\cos \\theta = \\frac{1}{2}\\left(a + \\frac{1}{a}\\right) \\), determine \\( \\cos 3\\theta \\).",
+      "question": "If $\\cos \\theta = \\frac{1}{2}\\left(a + \\frac{1}{a}\\right)$, determine $\\cos 3\\theta$.",
+      "question_image": null,
       "options": [
-        "\\( a^3 + \\frac{1}{a^3} \\)",
-        "\\( \\frac{1}{2}\\left(a^3 + \\frac{1}{a^3}\\right) \\)",
-        "\\( \\frac{1}{4}\\left(a^3 + \\frac{1}{a^3}\\right) \\)",
-        "\\( \\frac{3}{2}\\left(a + \\frac{1}{a}\\right) \\)"
+        {"text": "$a^3 + \\frac{1}{a^3}$", "image": null},
+        {"text": "$\\frac{1}{2}\\left(a^3 + \\frac{1}{a^3}\\right)$", "image": null},
+        {"text": "$\\frac{1}{4}\\left(a^3 + \\frac{1}{a^3}\\right)$", "image": null},
+        {"text": "$\\frac{3}{2}\\left(a + \\frac{1}{a}\\right)$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -259,19 +272,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Substitute into the formula \\( \\cos 3\\theta = 4\\cos^3 \\theta - 3\\cos \\theta \\) and expand."
+      "hint": "Substitute into $\\cos 3\\theta = 4\\cos^3 \\theta - 3\\cos \\theta$ and expand."
     },
     {
       "id": "hw_014",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "Find the value of \\( \\cos 20^\\circ \\cos 40^\\circ \\cos 80^\\circ \\).",
+      "question": "Find the value of $\\cos 20^\\circ \\cos 40^\\circ \\cos 80^\\circ$.",
+      "question_image": null,
       "options": [
-        "\\( \\frac{1}{2} \\)",
-        "\\( \\frac{1}{4} \\)",
-        "\\( \\frac{1}{8} \\)",
-        "\\( \\frac{\\sqrt{3}}{8} \\)"
+        {"text": "$\\frac{1}{2}$", "image": null},
+        {"text": "$\\frac{1}{4}$", "image": null},
+        {"text": "$\\frac{1}{8}$", "image": null},
+        {"text": "$\\frac{\\sqrt{3}}{8}$", "image": null}
       ],
       "correct_answer": "C",
       "marks": 1,
@@ -279,19 +293,20 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use the property \\( \\cos \\theta \\cos(60^\\circ - \\theta) \\cos(60^\\circ + \\theta) = \\frac{1}{4}\\cos 3\\theta \\)."
+      "hint": "Use $\\cos \\theta \\cos(60^\\circ - \\theta) \\cos(60^\\circ + \\theta) = \\frac{1}{4}\\cos 3\\theta$."
     },
     {
       "id": "hw_015",
       "class": "11",
       "subject": "maths",
       "type": "mcqs",
-      "question": "If \\( \\sin A = \\frac{3}{5} \\) and \\( A \\) lies in the second quadrant, find \\( \\sin 2A \\).",
+      "question": "If $\\sin A = \\frac{3}{5}$ and $A$ lies in the second quadrant, find $\\sin 2A$.",
+      "question_image": null,
       "options": [
-        "\\( \\frac{24}{25} \\)",
-        "\\( -\\frac{24}{25} \\)",
-        "\\( \\frac{7}{25} \\)",
-        "\\( -\\frac{7}{25} \\)"
+        {"text": "$\\frac{24}{25}$", "image": null},
+        {"text": "$-\\frac{24}{25}$", "image": null},
+        {"text": "$\\frac{7}{25}$", "image": null},
+        {"text": "$-\\frac{7}{25}$", "image": null}
       ],
       "correct_answer": "B",
       "marks": 1,
@@ -299,202 +314,217 @@
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Find \\( \\cos A \\) (which will be negative), then apply \\( \\sin 2A = 2\\sin A \\cos A \\)."
+      "hint": "Find $\\cos A$ (which will be negative), then apply $\\sin 2A = 2\\sin A \\cos A$."
     },
     {
       "id": "hw_016",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove the following identity: \\\\[ \\begin{array}{c} \\sin 5x = 5\\sin x - 20\\sin^3 x + 16\\sin^5 x \\end{array} \\\\]",
+      "question": "Prove that: $$\\sin 5x = 5\\sin x - 20\\sin^3 x + 16\\sin^5 x$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Write \\( \\sin 5x = \\sin(3x + 2x) \\), expand using the sum formula, and substitute multiple angle identities for \\( \\sin 3x \\), \\( \\cos 3x \\), \\( \\sin 2x \\), and \\( \\cos 2x \\)."
+      "hint": "Write $\\sin 5x = \\sin(3x + 2x)$, expand using the sum formula, and substitute multiple angle identities."
     },
     {
       "id": "hw_017",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove that: \\\\[ \\begin{array}{c} \\cos^3 x \\sin 3x + \\sin^3 x \\cos 3x = \\frac{3}{4}\\sin 4x \\end{array} \\\\]",
+      "question": "Prove that: $$\\cos^3 x \\sin 3x + \\sin^3 x \\cos 3x = \\frac{3}{4}\\sin 4x$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Substitute \\( \\cos^3 x = \\frac{\\cos 3x + 3\\cos x}{4} \\) and \\( \\sin^3 x = \\frac{3\\sin x - \\sin 3x}{4} \\) into the LHS."
+      "hint": "Substitute $\\cos^3 x = \\frac{\\cos 3x + 3\\cos x}{4}$ and $\\sin^3 x = \\frac{3\\sin x - \\sin 3x}{4}$."
     },
     {
       "id": "hw_018",
       "class": "11",
       "subject": "maths",
       "type": "saq",
-      "question": "Prove the trigonometric identity: \\\\[ \\begin{array}{c} \\frac{\\sin 3x}{\\sin x} - \\frac{\\cos 3x}{\\cos x} = 2 \\end{array} \\\\]",
+      "question": "Prove that: $$\\frac{\\sin 3x}{\\sin x} - \\frac{\\cos 3x}{\\cos x} = 2$$",
+      "question_image": null,
       "marks": 3,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Take the LCM to get \\( \\frac{\\sin 3x \\cos x - \\cos 3x \\sin x}{\\sin x \\cos x} \\) and use the compound angle formula."
+      "hint": "Take LCM and use $\\sin 3x \\cos x - \\cos 3x \\sin x = \\sin(3x - x)$."
     },
     {
       "id": "hw_019",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove that: \\\\[ \\begin{array}{c} \\tan x + \\tan\\left(x + \\frac{\\pi}{3}\\right) + \\tan\\left(x + \\frac{2\\pi}{3}\\right) = 3\\tan 3x \\end{array} \\\\]",
+      "question": "Prove that: $$\\tan x + \\tan\\left(x + \\frac{\\pi}{3}\\right) + \\tan\\left(x + \\frac{2\\pi}{3}\\right) = 3\\tan 3x$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Expand the tangent addition formulas, combine the second and third terms, and simplify to match the \\( \\tan 3x \\) expansion."
+      "hint": "Expand the tangent addition formulas, combine the second and third terms, and simplify to match the $\\tan 3x$ expansion."
     },
     {
       "id": "hw_020",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove the conditional identity: \\\\[ \\begin{array}{c} \\cos^2 A + \\cos^2 B - 2\\cos A \\cos B \\cos(A+B) = \\sin^2(A+B) \\end{array} \\\\]",
+      "question": "Prove that: $$\\cos^2 A + \\cos^2 B - 2\\cos A \\cos B \\cos(A+B) = \\sin^2(A+B)$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Group \\( \\cos^2 A - 2\\cos A \\cos B \\cos(A+B) \\), add and subtract appropriate terms, or expand \\( \\cos(A+B) \\) directly."
+      "hint": "Group $\\cos^2 A - 2\\cos A \\cos B \\cos(A+B)$ and add/subtract appropriate terms."
     },
     {
       "id": "hw_021",
       "class": "11",
       "subject": "maths",
       "type": "saq",
-      "question": "Show that: \\\\[ \\begin{array}{c} \\sqrt{3}\\csc 20^\\circ - \\sec 20^\\circ = 4 \\end{array} \\\\]",
+      "question": "Show that: $$\\sqrt{3}\\csc 20^\\circ - \\sec 20^\\circ = 4$$",
+      "question_image": null,
       "marks": 3,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Convert to sine and cosine, find a common denominator, and recognize the numerator as \\( 2\\sin(60^\\circ - 20^\\circ) \\)."
+      "hint": "Convert to sine and cosine, find common denominator, and use $2\\sin(60^\\circ - 20^\\circ)$."
     },
     {
       "id": "hw_022",
       "class": "11",
       "subject": "maths",
       "type": "saq",
-      "question": "Prove the cotangent series relation: \\\\[ \\begin{array}{c} \\cot x \\cot 2x - \\cot 2x \\cot 3x - \\cot 3x \\cot x = 1 \\end{array} \\\\]",
+      "question": "Prove that: $$\\cot x \\cot 2x - \\cot 2x \\cot 3x - \\cot 3x \\cot x = 1$$",
+      "question_image": null,
       "marks": 3,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Start with \\( 3x = 2x + x \\), apply the cotangent addition formula, and rearrange."
+      "hint": "Start with $3x = 2x + x$, apply the cotangent addition formula, and rearrange."
     },
     {
       "id": "hw_023",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove that: \\\\[ \\begin{array}{c} 16\\cos \\frac{2\\pi}{15} \\cos \\frac{4\\pi}{15} \\cos \\frac{8\\pi}{15} \\cos \\frac{14\\pi}{15} = 1 \\end{array} \\\\]",
+      "question": "Prove that: $$16\\cos \\frac{2\\pi}{15} \\cos \\frac{4\\pi}{15} \\cos \\frac{8\\pi}{15} \\cos \\frac{14\\pi}{15} = 1$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Rewrite \\( \\cos \\frac{14\\pi}{15} = -\\cos \\frac{\\pi}{15} \\). Multiply and divide the entire expression by \\( 2\\sin \\frac{\\pi}{15} \\) and use the sine double angle formula successively."
+      "hint": "Rewrite $\\cos \\frac{14\\pi}{15} = -\\cos \\frac{\\pi}{15}$ and use $2\\sin \\frac{\\pi}{15}$."
     },
     {
       "id": "hw_024",
       "class": "11",
       "subject": "maths",
       "type": "saq",
-      "question": "Prove the expansion: \\\\[ \\begin{array}{c} \\sin 4A = 4\\sin A \\cos^3 A - 4\\cos A \\sin^3 A \\end{array} \\\\]",
+      "question": "Prove that: $$\\sin 4A = 4\\sin A \\cos^3 A - 4\\cos A \\sin^3 A$$",
+      "question_image": null,
       "marks": 3,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Write \\( \\sin 4A = 2\\sin 2A \\cos 2A \\), then substitute \\( \\sin 2A = 2\\sin A \\cos A \\) and \\( \\cos 2A = \\cos^2 A - \\sin^2 A \\)."
+      "hint": "Write $\\sin 4A = 2\\sin 2A \\cos 2A$ and substitute $\\sin 2A$ and $\\cos 2A$."
     },
     {
       "id": "hw_025",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "If \\( \\tan \\frac{\\theta}{2} = \\sqrt{\\frac{a-b}{a+b}} \\tan \\frac{\\phi}{2} \\), prove that: \\\\[ \\begin{array}{c} \\cos \\theta = \\frac{a \\cos \\phi + b}{a + b \\cos \\phi} \\end{array} \\\\]",
+      "question": "If $\\tan \\frac{\\theta}{2} = \\sqrt{\\frac{a-b}{a+b}} \\tan \\frac{\\phi}{2}$, prove that: $$\\cos \\theta = \\frac{a \\cos \\phi + b}{a + b \\cos \\phi}$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use the formula \\( \\cos \\theta = \\frac{1-\\tan^2(\\theta/2)}{1+\\tan^2(\\theta/2)} \\) and substitute the given relation."
+      "hint": "Use $\\cos \\theta = \\frac{1-\\tan^2(\\theta/2)}{1+\\tan^2(\\theta/2)}$ and substitute the given relation."
     },
     {
       "id": "hw_026",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "If \\( x + y + z = xyz \\), prove that: \\\\[ \\begin{array}{c} \\frac{2x}{1-x^2} + \\frac{2y}{1-y^2} + \\frac{2z}{1-z^2} = \\frac{2x}{1-x^2} \\cdot \\frac{2y}{1-y^2} \\cdot \\frac{2z}{1-z^2} \\end{array} \\\\]",
+      "question": "If $x + y + z = xyz$, prove that: $$\\frac{2x}{1-x^2} + \\frac{2y}{1-y^2} + \\frac{2z}{1-z^2} = \\frac{2x}{1-x^2} \\cdot \\frac{2y}{1-y^2} \\cdot \\frac{2z}{1-z^2}$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Let \\( x=\\tan A, y=\\tan B, z=\\tan C \\). The condition implies \\( A+B+C = n\\pi \\). Then analyze \\( \\tan 2A + \\tan 2B + \\tan 2C \\)."
+      "hint": "Let $x=\\tan A, y=\\tan B, z=\\tan C$. Then $A+B+C = n\\pi$."
     },
     {
       "id": "hw_027",
       "class": "11",
       "subject": "maths",
       "type": "saq",
-      "question": "Prove that: \\\\[ \\begin{array}{c} \\frac{\\cos x}{1-\\sin x} = \\tan\\left(\\frac{\\pi}{4} + \\frac{x}{2}\\right) \\end{array} \\\\]",
+      "question": "Prove that: $$\\frac{\\cos x}{1-\\sin x} = \\tan\\left(\\frac{\\pi}{4} + \\frac{x}{2}\\right)$$",
+      "question_image": null,
       "marks": 3,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Write \\( \\cos x = \\cos^2(x/2) - \\sin^2(x/2) \\) and \\( 1-\\sin x = (\\cos(x/2) - \\sin(x/2))^2 \\), then simplify."
+      "hint": "Write $\\cos x = \\cos^2(x/2) - \\sin^2(x/2)$ and $1-\\sin x = (\\cos(x/2) - \\sin(x/2))^2$."
     },
     {
       "id": "hw_028",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove the degree-6 polynomial expansion for cosine: \\\\[ \\begin{array}{c} \\cos 6x = 32\\cos^6 x - 48\\cos^4 x + 18\\cos^2 x - 1 \\end{array} \\\\]",
+      "question": "Prove that: $$\\cos 6x = 32\\cos^6 x - 48\\cos^4 x + 18\\cos^2 x - 1$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Write \\( \\cos 6x = \\cos 2(3x) = 2\\cos^2(3x) - 1 \\) and substitute \\( \\cos 3x = 4\\cos^3 x - 3\\cos x \\)."
+      "hint": "Write $\\cos 6x = \\cos 2(3x) = 2\\cos^2(3x) - 1$ and substitute $\\cos 3x = 4\\cos^3 x - 3\\cos x$."
     },
     {
       "id": "hw_029",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "Prove that: \\\\[ \\begin{array}{c} \\left(1+\\cos \\frac{\\pi}{8}\\right)\\left(1+\\cos \\frac{3\\pi}{8}\\right)\\left(1+\\cos \\frac{5\\pi}{8}\\right)\\left(1+\\cos \\frac{7\\pi}{8}\\right) = \\frac{1}{8} \\end{array} \\\\]",
+      "question": "Prove that: $$\\left(1+\\cos \\frac{\\pi}{8}\\right)\\left(1+\\cos \\frac{3\\pi}{8}\\right)\\left(1+\\cos \\frac{5\\pi}{8}\\right)\\left(1+\\cos \\frac{7\\pi}{8}\\right) = \\frac{1}{8}$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "Use \\( \\cos(\\pi - \\theta) = -\\cos \\theta \\) to convert the last two factors into a difference of squares with the first two."
+      "hint": "Use $\\cos(\\pi - \\theta) = -\\cos \\theta$ to convert the last two factors."
     },
     {
       "id": "hw_030",
       "class": "11",
       "subject": "maths",
       "type": "laq",
-      "question": "If \\( \\cos \\alpha + \\cos \\beta = 0 = \\sin \\alpha + \\sin \\beta \\), prove that: \\\\[ \\begin{array}{c} \\cos 2\\alpha + \\cos 2\\beta = -2\\cos(\\alpha+\\beta) \\end{array} \\\\]",
+      "question": "If $\\cos \\alpha + \\cos \\beta = 0 = \\sin \\alpha + \\sin \\beta$, prove that: $$\\cos 2\\alpha + \\cos 2\\beta = -2\\cos(\\alpha+\\beta)$$",
+      "question_image": null,
       "marks": 5,
       "date": "2026-07-25",
       "week": 4,
       "has_image": false,
       "image_path": null,
-      "hint": "From the given condition, deduce that \\( \\alpha - \\beta = \\pi \\). Substitute this back to analyze the double angles."
+      "hint": "From the given condition, deduce that $\\alpha - \\beta = \\pi$."
     }
   ]
 }
