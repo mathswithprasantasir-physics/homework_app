@@ -3,149 +3,399 @@
   "homework": [
     {
       "id": "hw_ph_001",
-      "class": "8",
+      "class": "11",
       "subject": "physics",
       "type": "mcqs",
-      "question": "What is the SI unit of force?",
+      "question": "A projectile is fired from the surface of the earth with a velocity of \\( 5 \\text{ m s}^{-1} \\) and angle \\( \\theta \\) with the horizontal. Another projectile fired from another planet with a velocity of \\( 3 \\text{ m s}^{-1} \\) at the same angle follows a trajectory which is identical with the trajectory of the projectile fired from the earth. The value of the acceleration due to gravity on the planet is (in \\( \\text{m s}^{-2} \\)) is (Given \\( g = 9.8 \\text{ m s}^{-2} \\))",
       "question_image": null,
       "options": [
         {
-          "text": "Newton",
+          "text": "3.5",
           "image": null
         },
         {
-          "text": "Joule",
+          "text": "5.9",
           "image": null
         },
         {
-          "text": "Watt",
+          "text": "16.3",
           "image": null
         },
         {
-          "text": "Pascal",
+          "text": "110.8",
           "image": null
         }
       ],
       "correct_answer": "A",
-      "marks": 1,
-      "date": "2024-01-15",
+      "marks": 4,
+      "date": "2026-07-22",
       "week": 3,
       "has_image": false,
       "image_path": null,
-      "hint": "Named after Sir Isaac Newton"
+      "hint": "Equate the trajectory equations for both planets. For identical trajectories, \\( \\frac{g_1}{u_1^2} = \\frac{g_2}{u_2^2} \\)."
     },
     {
       "id": "hw_ph_002",
-      "class": "9",
-      "subject": "physics",
-      "type": "saq",
-      "question": "Define acceleration and provide its formula.",
-      "question_image": null,
-      "marks": 5,
-      "date": "2024-01-16",
-      "week": 3,
-      "has_image": false,
-      "image_path": null,
-      "hint": "Rate of change of velocity"
-    },
-    {
-      "id": "hw_ph_003",
-      "class": "10",
+      "class": "11",
       "subject": "physics",
       "type": "mcqs",
-      "question": "Look at the diagram below. Which type of force is being applied?",
-      "question_image": "/static/uploads/images/physics_diagram_001.jpg",
+      "question": "The velocity of a projectile at the initial point A is \\( (2\\hat{i} + 3\\hat{j})\\text{m/s} \\). Its velocity (in m/s) at point B is",
+      "question_image": "/static/uploads/images/physics/projectile-motion/q2.png",
       "options": [
         {
-          "text": "Gravitational Force - The force that pulls objects toward Earth",
-          "image": "/static/uploads/images/gravity_force.jpg"
+          "text": "\\( 2\\hat{i} - 3\\hat{j} \\)",
+          "image": null
         },
         {
-          "text": "Magnetic Force - The force between magnetic objects",
-          "image": "/static/uploads/images/magnetic_force.jpg"
+          "text": "\\( 2\\hat{i} + 3\\hat{j} \\)",
+          "image": null
         },
         {
-          "text": "Frictional Force - The force that opposes motion between surfaces",
-          "image": "/static/uploads/images/friction_force.jpg"
+          "text": "\\( -2\\hat{i} - 3\\hat{j} \\)",
+          "image": null
         },
         {
-          "text": "Tension Force - The force transmitted through a rope or string",
-          "image": "/static/uploads/images/tension_force.jpg"
-        }
-      ],
-      "correct_answer": "C",
-      "marks": 2,
-      "date": "2024-01-15",
-      "week": 3,
-      "has_image": true,
-      "image_path": "/static/uploads/images/physics_diagram_001.jpg",
-      "hint": "Look at the direction of the arrow in the diagram"
-    },
-    {
-      "id": "hw_ph_004",
-      "class": "10",
-      "subject": "physics",
-      "type": "mcqs",
-      "question": "Which circuit diagram correctly shows a parallel circuit?",
-      "question_image": "/static/uploads/images/circuit_question.jpg",
-      "options": [
-        {
-          "text": "Series Circuit - Components connected in a single path",
-          "image": "/static/uploads/images/series_circuit.jpg"
-        },
-        {
-          "text": "Parallel Circuit - Components connected in multiple paths",
-          "image": "/static/uploads/images/parallel_circuit.jpg"
-        },
-        {
-          "text": "Series-Parallel Circuit - Combination of both",
-          "image": "/static/uploads/images/series_parallel_circuit.jpg"
-        },
-        {
-          "text": "Short Circuit - Direct connection with no resistance",
-          "image": "/static/uploads/images/short_circuit.jpg"
-        }
-      ],
-      "correct_answer": "B",
-      "marks": 2,
-      "date": "2024-01-16",
-      "week": 3,
-      "has_image": true,
-      "image_path": "/static/uploads/images/circuit_question.jpg",
-      "hint": "Look for multiple paths for current flow"
-    },
-    {
-      "id": "hw_ph_005",
-      "class": "9",
-      "subject": "physics",
-      "type": "mcqs",
-      "question": "Identify the correct symbol for the electrical component shown below:",
-      "question_image": "/static/uploads/images/electrical_symbols_question.jpg",
-      "options": [
-        {
-          "text": "Resistor - Opposition to current flow",
-          "image": "/static/uploads/images/resistor_symbol.jpg"
-        },
-        {
-          "text": "Battery - Source of electrical energy",
-          "image": "/static/uploads/images/battery_symbol.jpg"
-        },
-        {
-          "text": "Switch - Controls the flow of current",
-          "image": "/static/uploads/images/switch_symbol.jpg"
-        },
-        {
-          "text": "Bulb - Converts electrical energy to light",
-          "image": "/static/uploads/images/bulb_symbol.jpg"
+          "text": "\\( -2\\hat{i} + 3\\hat{j} \\)",
+          "image": null
         }
       ],
       "correct_answer": "A",
-      "marks": 1,
-      "date": "2024-01-17",
+      "marks": 4,
+      "date": "2026-07-22",
       "week": 3,
       "has_image": true,
-      "image_path": "/static/uploads/images/electrical_symbols_question.jpg",
-      "hint": "Look at the zigzag pattern in the symbol"
+      "image_path": "image_965927.png",
+      "hint": "In projectile motion, horizontal velocity remains constant, while vertical velocity reverses its direction at the same horizontal level."
+    },
+    {
+      "id": "hw_ph_003",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "The horizontal range and the maximum height of a projectile are equal. The angle of projection of the projectile is",
+      "question_image": null,
+      "options": [
+        {
+          "text": "\\( \\theta = \\tan^{-1}(\\frac{1}{4}) \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\theta = \\tan^{-1}(4) \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\theta = \\tan^{-1}(2) \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\theta = 45^\\circ \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "B",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Equate the formulas for horizontal range \\( R = \\frac{u^2 \\sin 2\\theta}{g} \\) and maximum height \\( H = \\frac{u^2 \\sin^2\\theta}{2g} \\)."
+    },
+    {
+      "id": "hw_ph_004",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "A missile is fired for maximum range with an initial velocity of 20 m/s. If \\( g = 10 \\text{ m/s}^2 \\), the range of the missile is",
+      "question_image": null,
+      "options": [
+        {
+          "text": "40 m",
+          "image": null
+        },
+        {
+          "text": "50 m",
+          "image": null
+        },
+        {
+          "text": "60 m",
+          "image": null
+        },
+        {
+          "text": "20 m",
+          "image": null
+        }
+      ],
+      "correct_answer": "A",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Maximum range occurs at a projection angle of \\( 45^\\circ \\) and is calculated using \\( R_{max} = \\frac{u^2}{g} \\)."
+    },
+    {
+      "id": "hw_ph_005",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "A projectile is fired at an angle of \\( 45^\\circ \\) with the horizontal. Elevation angle of the projectile at its highest point as seen from the point of projection, is",
+      "question_image": null,
+      "options": [
+        {
+          "text": "\\( 45^\\circ \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 60^\\circ \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\tan^{-1}(\\frac{1}{2}) \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\tan^{-1}(\\frac{\\sqrt{3}}{2}) \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "C",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "The angle of elevation \\( \\alpha \\) is given by \\( \\tan \\alpha = \\frac{H}{R/2} \\). Substitute the standard formulas for H and R at \\( 45^\\circ \\)."
+    },
+    {
+      "id": "hw_ph_006",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "The speed of a projectile at its maximum height is half of its initial speed. The angle of projection is",
+      "question_image": null,
+      "options": [
+        {
+          "text": "\\( 60^\\circ \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 15^\\circ \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 30^\\circ \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 45^\\circ \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "A",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "At maximum height, the speed is strictly the horizontal component \\( u\\cos\\theta \\). Equate this to \\( \\frac{u}{2} \\)."
+    },
+    {
+      "id": "hw_ph_007",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "A particle of mass m is projected with velocity v making an angle of \\( 45^\\circ \\) with the horizontal. When the particle lands on the level ground the magnitude of the change in its momentum will be",
+      "question_image": null,
+      "options": [
+        {
+          "text": "\\( mv\\sqrt{2} \\)",
+          "image": null
+        },
+        {
+          "text": "zero",
+          "image": null
+        },
+        {
+          "text": "\\( 2mv \\)",
+          "image": null
+        },
+        {
+          "text": "\\( mv/\\sqrt{2} \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "A",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Horizontal momentum remains constant. Change in vertical momentum is \\( mv\\sin\\theta - (-mv\\sin\\theta) = 2mv\\sin\\theta \\)."
+    },
+    {
+      "id": "hw_ph_008",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "For angles of projection of a projectile at angle \\( (45^\\circ - \\theta) \\) and \\( (45^\\circ + \\theta) \\), the horizontal range described by the projectile are in the ratio of",
+      "question_image": null,
+      "options": [
+        {
+          "text": "2:1",
+          "image": null
+        },
+        {
+          "text": "1:1",
+          "image": null
+        },
+        {
+          "text": "2:3",
+          "image": null
+        },
+        {
+          "text": "1:2",
+          "image": null
+        }
+      ],
+      "correct_answer": "B",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "The sum of the two angles is \\( 90^\\circ \\). Complementary angles of projection yield the same horizontal range."
+    },
+    {
+      "id": "hw_ph_009",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "A particle A is dropped from a height and another particle B is projected in horizontal direction with speed of 5 m/s from the same height then correct statement is",
+      "question_image": null,
+      "options": [
+        {
+          "text": "particle A will reach at ground first with respect to particle B",
+          "image": null
+        },
+        {
+          "text": "particle B will reach at ground first with respect to particle A",
+          "image": null
+        },
+        {
+          "text": "both particles will reach at ground simultaneously",
+          "image": null
+        },
+        {
+          "text": "both particles will reach at ground with same speed.",
+          "image": null
+        }
+      ],
+      "correct_answer": "C",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "The vertical motion determines time of flight and is independent of horizontal velocity. Both start with zero vertical velocity."
+    },
+    {
+      "id": "hw_ph_010",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "Two projectiles of same mass and with same velocity are thrown at an angle \\( 60^\\circ \\) and \\( 30^\\circ \\) with the horizontal, then which will remain same",
+      "question_image": null,
+      "options": [
+        {
+          "text": "time of flight",
+          "image": null
+        },
+        {
+          "text": "range of projectile",
+          "image": null
+        },
+        {
+          "text": "maximum height acquired",
+          "image": null
+        },
+        {
+          "text": "all of them.",
+          "image": null
+        }
+      ],
+      "correct_answer": "B",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "The angles \\( 60^\\circ \\) and \\( 30^\\circ \\) sum to \\( 90^\\circ \\). Projectiles with complementary angles have the same range."
+    },
+    {
+      "id": "hw_ph_011",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "If a body A of mass M is thrown with velocity v at an angle of \\( 30^\\circ \\) to the horizontal and another body B of the same mass is thrown with the same speed at an angle of \\( 60^\\circ \\) to the horizontal, the ratio of horizontal range of A to B will be",
+      "question_image": null,
+      "options": [
+        {
+          "text": "1:3",
+          "image": null
+        },
+        {
+          "text": "1:1",
+          "image": null
+        },
+        {
+          "text": "\\( 1:\\sqrt{3} \\)",
+          "image": null
+        },
+        {
+          "text": "\\( \\sqrt{3}:1 \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "B",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Since \\( 30^\\circ + 60^\\circ = 90^\\circ \\), the bodies have complementary projection angles and therefore identical horizontal ranges."
+    },
+    {
+      "id": "hw_ph_012",
+      "class": "11",
+      "subject": "physics",
+      "type": "mcqs",
+      "question": "The maximum range of a gun of horizontal terrain is 16 km. If \\( g = 10 \\text{ m s}^{-2} \\), then muzzle velocity of a shell must be",
+      "question_image": null,
+      "options": [
+        {
+          "text": "\\( 160 \\text{ m s}^{-1} \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 200\\sqrt{2} \\text{ m s}^{-1} \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 400 \\text{ m s}^{-1} \\)",
+          "image": null
+        },
+        {
+          "text": "\\( 800 \\text{ m s}^{-1} \\)",
+          "image": null
+        }
+      ],
+      "correct_answer": "C",
+      "marks": 4,
+      "date": "2026-07-22",
+      "week": 3,
+      "has_image": false,
+      "image_path": null,
+      "hint": "Use the formula for maximum range \\( R_{max} = \\frac{v^2}{g} \\) and solve for v."
     }
   ]
 }
