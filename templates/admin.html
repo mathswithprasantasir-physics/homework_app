@@ -203,6 +203,12 @@
                             <option value="chemistry">Chemistry</option>
                             <option value="biology">Biology</option>
                         </select>
+                        <select id="manageChapter">
+                            <option value="">All Chapters</option>
+                        </select>
+                        <select id="manageTopic">
+                            <option value="">All Topics</option>
+                        </select>
                         <button id="loadHomework" class="btn btn-primary">
                             <i class="fas fa-sync"></i> Load Homework
                         </button>
@@ -239,7 +245,78 @@
     
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(renderMath, 1000);
+        
+        // Load chapters and topics for manage section
+        loadManageChapters();
+        loadManageTopics();
+        
+        // Event listeners for manage filters
+        document.getElementById('manageClass')?.addEventListener('change', function() {
+            const subject = document.getElementById('manageSubject')?.value || '';
+            const classValue = this.value;
+            loadManageChapters(subject, classValue);
+            loadManageTopics(null, subject, classValue);
+        });
+        
+        document.getElementById('manageSubject')?.addEventListener('change', function() {
+            const classValue = document.getElementById('manageClass')?.value || '';
+            loadManageChapters(this.value, classValue);
+            loadManageTopics(null, this.value, classValue);
+        });
+        
+        document.getElementById('manageChapter')?.addEventListener('change', function() {
+            const subject = document.getElementById('manageSubject')?.value || '';
+            const classValue = document.getElementById('manageClass')?.value || '';
+            loadManageTopics(this.value, subject, classValue);
+        });
     });
+    
+    // Load chapters for manage section
+    function loadManageChapters(subject, classValue) {
+        const chapterSelect = document.getElementById('manageChapter');
+        if (!chapterSelect) return;
+        
+        const params = new URLSearchParams();
+        if (subject) params.append('subject', subject);
+        if (classValue) params.append('class', classValue);
+        
+        fetch(`/api/chapters?${params.toString()}`)
+            .then(response => response.json())
+            .then(chapters => {
+                chapterSelect.innerHTML = '<option value="">All Chapters</option>';
+                chapters.forEach(chapter => {
+                    const option = document.createElement('option');
+                    option.value = chapter;
+                    option.textContent = chapter;
+                    chapterSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error loading chapters:', error));
+    }
+    
+    // Load topics for manage section
+    function loadManageTopics(chapter, subject, classValue) {
+        const topicSelect = document.getElementById('manageTopic');
+        if (!topicSelect) return;
+        
+        const params = new URLSearchParams();
+        if (chapter) params.append('chapter', chapter);
+        if (subject) params.append('subject', subject);
+        if (classValue) params.append('class', classValue);
+        
+        fetch(`/api/topics?${params.toString()}`)
+            .then(response => response.json())
+            .then(topics => {
+                topicSelect.innerHTML = '<option value="">All Topics</option>';
+                topics.forEach(topic => {
+                    const option = document.createElement('option');
+                    option.value = topic;
+                    option.textContent = topic;
+                    topicSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error loading topics:', error));
+    }
 </script>
 
 <script src="/static/js/script.js"></script>
