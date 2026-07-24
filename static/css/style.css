@@ -181,6 +181,35 @@ body {
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
+/* Chapter and Topic Badges */
+.badge-chapter {
+    background: #6c5ce7;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.badge-topic {
+    background: #00b894;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.chapter-topic-tags {
+    margin: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
 /* Homework Grid */
 .homework-header {
     display: flex;
@@ -712,4 +741,72 @@ body {
 
 .latex-loaded {
     opacity: 1;
+}
+
+/* ✅ ADD: Chapter and Topic Filter Styles */
+.filter-group select#chapterFilter,
+.filter-group select#topicFilter {
+    background-color: var(--white);
+}
+
+.filter-group select#chapterFilter:focus,
+.filter-group select#topicFilter:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+/* Chapter and Topic display in manage list */
+.manage-item .item-info small i.fa-layer-group {
+    color: #6c5ce7;
+}
+
+.manage-item .item-info small i.fa-tags {
+    color: #00b894;
+}
+
+/* Chapter and Topic tags in modal */
+#questionDetail .badge-chapter {
+    background: #6c5ce7;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+#questionDetail .badge-topic {
+    background: #00b894;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+/* Hover effects for chapter/topic badges */
+.badge-chapter:hover,
+.badge-topic:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+/* Admin form chapter/topic input styles */
+#hwChapter,
+#hwTopic {
+    background-color: var(--white);
+}
+
+#hwChapter:focus,
+#hwTopic:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+#hwChapter::placeholder,
+#hwTopic::placeholder {
+    color: #bbb;
+    font-size: 0.9rem;
 }
