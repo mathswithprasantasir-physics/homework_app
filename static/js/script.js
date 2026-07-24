@@ -58,6 +58,16 @@ function setupEventListeners() {
     // Reset filters
     document.getElementById('resetFilters')?.addEventListener('click', resetFilters);
     
+    // Chapter filter - load topics when chapter changes
+    document.getElementById('chapterFilter')?.addEventListener('change', function() {
+        loadTopics(this.value, document.getElementById('subjectFilter')?.value);
+    });
+    
+    // Subject filter - load chapters when subject changes
+    document.getElementById('subjectFilter')?.addEventListener('change', function() {
+        loadChapters(this.value);
+    });
+    
     // Modal close
     document.querySelector('.close-modal')?.addEventListener('click', closeModal);
     window.addEventListener('click', (e) => {
@@ -157,6 +167,60 @@ function loadFilters() {
             });
         })
         .catch(error => console.error('Error loading weeks:', error));
+    
+    // Load chapters initially
+    loadChapters();
+}
+
+// ============================================
+// Load Chapters
+// ============================================
+
+function loadChapters(subject) {
+    const chapterFilter = document.getElementById('chapterFilter');
+    if (!chapterFilter) return;
+    
+    const params = new URLSearchParams();
+    if (subject) params.append('subject', subject);
+    
+    fetch(`/api/chapters?${params.toString()}`)
+        .then(response => response.json())
+        .then(chapters => {
+            chapterFilter.innerHTML = '<option value="">All Chapters</option>';
+            chapters.forEach(chapter => {
+                const option = document.createElement('option');
+                option.value = chapter;
+                option.textContent = chapter;
+                chapterFilter.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading chapters:', error));
+}
+
+// ============================================
+// Load Topics
+// ============================================
+
+function loadTopics(chapter, subject) {
+    const topicFilter = document.getElementById('topicFilter');
+    if (!topicFilter) return;
+    
+    const params = new URLSearchParams();
+    if (chapter) params.append('chapter', chapter);
+    if (subject) params.append('subject', subject);
+    
+    fetch(`/api/topics?${params.toString()}`)
+        .then(response => response.json())
+        .then(topics => {
+            topicFilter.innerHTML = '<option value="">All Topics</option>';
+            topics.forEach(topic => {
+                const option = document.createElement('option');
+                option.value = topic;
+                option.textContent = topic;
+                topicFilter.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading topics:', error));
 }
 
 // ============================================
@@ -166,12 +230,16 @@ function loadFilters() {
 function loadHomework() {
     const classFilter = document.getElementById('classFilter')?.value || '';
     const subjectFilter = document.getElementById('subjectFilter')?.value || '';
+    const chapterFilter = document.getElementById('chapterFilter')?.value || '';
+    const topicFilter = document.getElementById('topicFilter')?.value || '';
     const typeFilter = document.getElementById('typeFilter')?.value || '';
     const weekFilter = document.getElementById('weekFilter')?.value || '';
     
     const params = new URLSearchParams();
     if (classFilter) params.append('class', classFilter);
     if (subjectFilter) params.append('subject', subjectFilter);
+    if (chapterFilter) params.append('chapter', chapterFilter);
+    if (topicFilter) params.append('topic', topicFilter);
     if (typeFilter) params.append('type', typeFilter);
     if (weekFilter) params.append('week', weekFilter);
     
@@ -221,11 +289,23 @@ function displayHomework(homework) {
             optionsCount = hw.options.length;
         }
         
+        // Display chapter and topic if available
+        let chapterTopicHTML = '';
+        if (hw.chapter || hw.topic) {
+            chapterTopicHTML = `
+                <div class="chapter-topic-tags">
+                    ${hw.chapter ? `<span class="badge badge-chapter"><i class="fas fa-layer-group"></i> ${hw.chapter}</span>` : ''}
+                    ${hw.topic ? `<span class="badge badge-topic"><i class="fas fa-tags"></i> ${hw.topic}</span>` : ''}
+                </div>
+            `;
+        }
+        
         return `
             <div class="homework-card" onclick="showQuestionDetail('${hw.id}')">
                 <span class="badge badge-${hw.type}">${hw.type.toUpperCase()}</span>
                 <span class="subject-tag">${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}</span>
                 <h3>Class ${hw.class}</h3>
+                ${chapterTopicHTML}
                 <div class="question-text">${hw.question}</div>
                 ${hw.question_image ? `<img src="${hw.question_image}" alt="Question image" class="question-image">` : ''}
                 <div class="meta">
@@ -285,6 +365,17 @@ function showQuestionDetail(hwId) {
         `;
     }
     
+    // Display chapter and topic if available
+    let chapterTopicHTML = '';
+    if (hw.chapter || hw.topic) {
+        chapterTopicHTML = `
+            <div style="margin: 10px 0;">
+                ${hw.chapter ? `<span class="badge badge-chapter" style="background: #6c5ce7; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-right: 8px;"><i class="fas fa-layer-group"></i> ${hw.chapter}</span>` : ''}
+                ${hw.topic ? `<span class="badge badge-topic" style="background: #00b894; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem;"><i class="fas fa-tags"></i> ${hw.topic}</span>` : ''}
+            </div>
+        `;
+    }
+    
     detail.innerHTML = `
         <div style="margin-bottom: 20px;">
             <span class="badge badge-${hw.type}">${hw.type.toUpperCase()}</span>
@@ -292,6 +383,7 @@ function showQuestionDetail(hwId) {
             <span class="subject-tag">Class ${hw.class}</span>
             ${hw.marks ? `<span class="subject-tag"><i class="fas fa-star"></i> ${hw.marks} marks</span>` : ''}
         </div>
+        ${chapterTopicHTML}
         <div style="margin-bottom: 15px; font-size: 1.15rem; line-height: 1.8;">
             <strong>Question:</strong><br>
             ${hw.question}
@@ -331,13 +423,21 @@ function closeModal() {
 function resetFilters() {
     const classFilter = document.getElementById('classFilter');
     const subjectFilter = document.getElementById('subjectFilter');
+    const chapterFilter = document.getElementById('chapterFilter');
+    const topicFilter = document.getElementById('topicFilter');
     const typeFilter = document.getElementById('typeFilter');
     const weekFilter = document.getElementById('weekFilter');
     
     if (classFilter) classFilter.value = '';
     if (subjectFilter) subjectFilter.value = '';
+    if (chapterFilter) chapterFilter.value = '';
+    if (topicFilter) topicFilter.value = '';
     if (typeFilter) typeFilter.value = '';
     if (weekFilter) weekFilter.value = '';
+    
+    // Reload chapters and topics
+    loadChapters();
+    loadTopics();
     
     loadHomework();
 }
@@ -497,6 +597,8 @@ function handleAddHomework(e) {
     const marks = document.getElementById('hwMarks')?.value;
     const date = document.getElementById('hwDate')?.value;
     const hint = document.getElementById('hwHint')?.value;
+    const chapter = document.getElementById('hwChapter')?.value;
+    const topic = document.getElementById('hwTopic')?.value;
     const questionImageFile = document.getElementById('hwQuestionImage')?.files[0];
     
     if (!classVal || !subject || !type || !question) {
@@ -543,6 +645,8 @@ function handleAddHomework(e) {
         marks: marks,
         date: date,
         hint: hint,
+        chapter: chapter,
+        topic: topic,
         questionImageFile: questionImageFile,
         options: options,
         correctAnswer: correctAnswer
@@ -635,7 +739,9 @@ function submitHomeworkData(data, questionImagePath, optionImages) {
         correct_answer: data.correctAnswer,
         marks: data.marks || 1,
         date: data.date || new Date().toISOString().split('T')[0],
-        hint: data.hint || ''
+        hint: data.hint || '',
+        chapter: data.chapter || '',
+        topic: data.topic || ''
     };
     
     fetch('/api/add_homework', {
@@ -696,10 +802,24 @@ function loadManageHomework() {
                 const hasQuestionImage = hw.question_image && hw.question_image !== 'null' && hw.question_image !== 'None';
                 const hasOptionImages = hw.options && hw.options.some(opt => opt.image && opt.image !== 'null' && opt.image !== 'None');
                 
+                // Display chapter and topic if available
+                let chapterTopicDisplay = '';
+                if (hw.chapter || hw.topic) {
+                    chapterTopicDisplay = `
+                        <br>
+                        <small>
+                            ${hw.chapter ? `<i class="fas fa-layer-group"></i> ${hw.chapter}` : ''}
+                            ${hw.chapter && hw.topic ? ' | ' : ''}
+                            ${hw.topic ? `<i class="fas fa-tags"></i> ${hw.topic}` : ''}
+                        </small>
+                    `;
+                }
+                
                 return `
                     <div class="manage-item">
                         <div class="item-info">
                             <strong>Class ${hw.class}</strong> - ${hw.subject.charAt(0).toUpperCase() + hw.subject.slice(1)}
+                            ${chapterTopicDisplay}
                             <br>
                             <small><strong>${hw.type.toUpperCase()}:</strong> ${hw.question.substring(0, 60)}${hw.question.length > 60 ? '...' : ''}</small>
                             <br>
@@ -782,6 +902,8 @@ function editHomework(hwId) {
     const hwMarks = document.getElementById('hwMarks');
     const hwDate = document.getElementById('hwDate');
     const hwHint = document.getElementById('hwHint');
+    const hwChapter = document.getElementById('hwChapter');
+    const hwTopic = document.getElementById('hwTopic');
     const questionImagePreview = document.getElementById('questionImagePreview');
     
     if (hwClass) hwClass.value = hw.class;
@@ -791,6 +913,8 @@ function editHomework(hwId) {
     if (hwMarks) hwMarks.value = hw.marks || 1;
     if (hwDate) hwDate.value = hw.date || '';
     if (hwHint) hwHint.value = hw.hint || '';
+    if (hwChapter) hwChapter.value = hw.chapter || '';
+    if (hwTopic) hwTopic.value = hw.topic || '';
     
     // Show question image if exists
     if (questionImagePreview && hw.question_image) {
@@ -862,6 +986,8 @@ function updateHomework(hwId) {
     const marks = document.getElementById('hwMarks')?.value;
     const date = document.getElementById('hwDate')?.value;
     const hint = document.getElementById('hwHint')?.value;
+    const chapter = document.getElementById('hwChapter')?.value;
+    const topic = document.getElementById('hwTopic')?.value;
     
     if (!classVal || !subject || !type || !question) {
         showError('Please fill in all required fields');
@@ -911,7 +1037,9 @@ function updateHomework(hwId) {
         correct_answer: correctAnswer,
         marks: marks || 1,
         date: date || new Date().toISOString().split('T')[0],
-        hint: hint || ''
+        hint: hint || '',
+        chapter: chapter || '',
+        topic: topic || ''
     };
     
     fetch(`/api/update_homework/${hwId}`, {
