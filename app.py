@@ -212,8 +212,9 @@ def get_subjects():
 
 @app.route('/api/chapters')
 def get_chapters():
-    """Get all available chapters"""
+    """Get all available chapters with class and subject filter"""
     subject_filter = request.args.get('subject')
+    class_filter = request.args.get('class')
     chapters = set()
     
     for subject_file in os.listdir(SUBJECTS_DIR):
@@ -221,9 +222,14 @@ def get_chapters():
             try:
                 with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
                     data = json.load(f)
+                    # Subject filter
                     if subject_filter and data['subject'].lower() != subject_filter.lower():
                         continue
+                    
                     for homework in data.get('homework', []):
+                        # Class filter - only get chapters for the selected class
+                        if class_filter and homework.get('class') != class_filter:
+                            continue
                         if homework.get('chapter'):
                             chapters.add(homework['chapter'])
             except:
@@ -233,9 +239,10 @@ def get_chapters():
 
 @app.route('/api/topics')
 def get_topics():
-    """Get all available topics"""
+    """Get all available topics with class, subject and chapter filter"""
     chapter_filter = request.args.get('chapter')
     subject_filter = request.args.get('subject')
+    class_filter = request.args.get('class')
     topics = set()
     
     for subject_file in os.listdir(SUBJECTS_DIR):
@@ -245,7 +252,11 @@ def get_topics():
                     data = json.load(f)
                     if subject_filter and data['subject'].lower() != subject_filter.lower():
                         continue
+                    
                     for homework in data.get('homework', []):
+                        # Class filter
+                        if class_filter and homework.get('class') != class_filter:
+                            continue
                         if chapter_filter and homework.get('chapter', '').lower() != chapter_filter.lower():
                             continue
                         if homework.get('topic'):
