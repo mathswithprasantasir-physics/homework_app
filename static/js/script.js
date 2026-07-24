@@ -58,14 +58,26 @@ function setupEventListeners() {
     // Reset filters
     document.getElementById('resetFilters')?.addEventListener('click', resetFilters);
     
-    // Chapter filter - load topics when chapter changes
-    document.getElementById('chapterFilter')?.addEventListener('change', function() {
-        loadTopics(this.value, document.getElementById('subjectFilter')?.value);
+    // Class filter - load chapters and topics when class changes
+    document.getElementById('classFilter')?.addEventListener('change', function() {
+        const subject = document.getElementById('subjectFilter')?.value || '';
+        const classValue = this.value;
+        loadChapters(subject, classValue);
+        loadTopics(null, subject, classValue);
     });
     
     // Subject filter - load chapters when subject changes
     document.getElementById('subjectFilter')?.addEventListener('change', function() {
-        loadChapters(this.value);
+        const classValue = document.getElementById('classFilter')?.value || '';
+        loadChapters(this.value, classValue);
+        loadTopics(null, this.value, classValue);
+    });
+    
+    // Chapter filter - load topics when chapter changes
+    document.getElementById('chapterFilter')?.addEventListener('change', function() {
+        const subject = document.getElementById('subjectFilter')?.value || '';
+        const classValue = document.getElementById('classFilter')?.value || '';
+        loadTopics(this.value, subject, classValue);
     });
     
     // Modal close
@@ -167,21 +179,19 @@ function loadFilters() {
             });
         })
         .catch(error => console.error('Error loading weeks:', error));
-    
-    // Load chapters initially
-    loadChapters();
 }
 
 // ============================================
-// Load Chapters
+// Load Chapters with Class Filter
 // ============================================
 
-function loadChapters(subject) {
+function loadChapters(subject, classValue) {
     const chapterFilter = document.getElementById('chapterFilter');
     if (!chapterFilter) return;
     
     const params = new URLSearchParams();
     if (subject) params.append('subject', subject);
+    if (classValue) params.append('class', classValue);
     
     fetch(`/api/chapters?${params.toString()}`)
         .then(response => response.json())
@@ -198,16 +208,17 @@ function loadChapters(subject) {
 }
 
 // ============================================
-// Load Topics
+// Load Topics with Class Filter
 // ============================================
 
-function loadTopics(chapter, subject) {
+function loadTopics(chapter, subject, classValue) {
     const topicFilter = document.getElementById('topicFilter');
     if (!topicFilter) return;
     
     const params = new URLSearchParams();
     if (chapter) params.append('chapter', chapter);
     if (subject) params.append('subject', subject);
+    if (classValue) params.append('class', classValue);
     
     fetch(`/api/topics?${params.toString()}`)
         .then(response => response.json())
