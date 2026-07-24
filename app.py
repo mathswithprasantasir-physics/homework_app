@@ -85,6 +85,8 @@ def init_sample_data():
                         "id": f"hw_{subject}_001",
                         "class": "8",
                         "subject": subject,
+                        "chapter": "Introduction",
+                        "topic": "Basic Concepts",
                         "type": "mcqs",
                         "question": f"Sample {subject} MCQ question for Class 8",
                         "question_image": None,
@@ -99,21 +101,26 @@ def init_sample_data():
                         "date": today.strftime("%Y-%m-%d"),
                         "week": week_num,
                         "has_image": False,
-                        "image_path": None
+                        "image_path": None,
+                        "hint": None
                     },
                     {
                         "id": f"hw_{subject}_002",
                         "class": "9",
                         "subject": subject,
+                        "chapter": "Advanced Topics",
+                        "topic": "Problem Solving",
                         "type": "saq",
                         "question": f"Sample {subject} Short Answer Question for Class 9",
                         "question_image": None,
-                        "hint": "Think about the basic concepts",
+                        "options": [],
+                        "correct_answer": None,
                         "marks": 5,
                         "date": today.strftime("%Y-%m-%d"),
                         "week": week_num,
                         "has_image": False,
-                        "image_path": None
+                        "image_path": None,
+                        "hint": "Think about the basic concepts"
                     }
                 ]
             }
@@ -203,13 +210,60 @@ def get_subjects():
                 pass
     return jsonify(subjects)
 
+@app.route('/api/chapters')
+def get_chapters():
+    """Get all available chapters"""
+    subject_filter = request.args.get('subject')
+    chapters = set()
+    
+    for subject_file in os.listdir(SUBJECTS_DIR):
+        if subject_file.endswith('.json'):
+            try:
+                with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
+                    data = json.load(f)
+                    if subject_filter and data['subject'].lower() != subject_filter.lower():
+                        continue
+                    for homework in data.get('homework', []):
+                        if homework.get('chapter'):
+                            chapters.add(homework['chapter'])
+            except:
+                pass
+    
+    return jsonify(sorted(list(chapters)))
+
+@app.route('/api/topics')
+def get_topics():
+    """Get all available topics"""
+    chapter_filter = request.args.get('chapter')
+    subject_filter = request.args.get('subject')
+    topics = set()
+    
+    for subject_file in os.listdir(SUBJECTS_DIR):
+        if subject_file.endswith('.json'):
+            try:
+                with open(os.path.join(SUBJECTS_DIR, subject_file), 'r') as f:
+                    data = json.load(f)
+                    if subject_filter and data['subject'].lower() != subject_filter.lower():
+                        continue
+                    for homework in data.get('homework', []):
+                        if chapter_filter and homework.get('chapter', '').lower() != chapter_filter.lower():
+                            continue
+                        if homework.get('topic'):
+                            topics.add(homework['topic'])
+            except:
+                pass
+    
+    return jsonify(sorted(list(topics)))
+
 @app.route('/api/homework')
 def get_homework():
-    """Get homework with filters"""
+    """Get homework with filters including chapter and topic"""
     class_filter = request.args.get('class')
     subject_filter = request.args.get('subject')
     week_filter = request.args.get('week')
     type_filter = request.args.get('type')
+    chapter_filter = request.args.get('chapter')
+    topic_filter = request.args.get('topic')
     
     all_homework = []
     
@@ -232,6 +286,11 @@ def get_homework():
                             hw_week = get_week_number(hw_date)
                             if str(hw_week) != week_filter:
                                 continue
+                        # Chapter and Topic filters
+                        if chapter_filter and homework.get('chapter', '').lower() != chapter_filter.lower():
+                            continue
+                        if topic_filter and homework.get('topic', '').lower() != topic_filter.lower():
+                            continue
                         all_homework.append(homework)
             except:
                 pass
@@ -334,11 +393,13 @@ def add_homework():
         else:
             options = []
         
-        # Create homework entry
+        # Create homework entry with chapter and topic
         homework = {
             'id': hw_id,
             'class': data['class'],
             'subject': data['subject'].lower(),
+            'chapter': data.get('chapter', ''),
+            'topic': data.get('topic', ''),
             'type': data['type'],
             'question': data['question'],
             'question_image': data.get('question_image'),
