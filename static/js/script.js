@@ -112,11 +112,11 @@ function setupEventListeners() {
 }
 
 // ============================================
-// Load Filters
+// Load Filters - FIXED: No duplicate entries
 // ============================================
 
 function loadFilters() {
-    // Load classes
+    // Load classes - FIXED: Clear ALL selects properly
     fetch('/api/classes')
         .then(response => response.json())
         .then(classes => {
@@ -124,22 +124,42 @@ function loadFilters() {
             const hwClass = document.getElementById('hwClass');
             const manageClass = document.getElementById('manageClass');
             
+            // Clear and populate classFilter
             if (classFilter) {
                 classFilter.innerHTML = '<option value="">All Classes</option>';
+                classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.class;
+                    option.textContent = `Class ${cls.class}`;
+                    classFilter.appendChild(option);
+                });
             }
             
-            classes.forEach(cls => {
-                const option = document.createElement('option');
-                option.value = cls.class;
-                option.textContent = `Class ${cls.class}`;
-                if (classFilter) classFilter.appendChild(option.cloneNode(true));
-                if (hwClass) hwClass.appendChild(option.cloneNode(true));
-                if (manageClass) manageClass.appendChild(option.cloneNode(true));
-            });
+            // Clear and populate hwClass
+            if (hwClass) {
+                hwClass.innerHTML = '<option value="">Select Class</option>';
+                classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.class;
+                    option.textContent = `Class ${cls.class}`;
+                    hwClass.appendChild(option);
+                });
+            }
+            
+            // Clear and populate manageClass
+            if (manageClass) {
+                manageClass.innerHTML = '<option value="">All Classes</option>';
+                classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.class;
+                    option.textContent = `Class ${cls.class}`;
+                    manageClass.appendChild(option);
+                });
+            }
         })
         .catch(error => console.error('Error loading classes:', error));
     
-    // Load subjects
+    // Load subjects - FIXED: Clear ALL selects properly
     fetch('/api/subjects')
         .then(response => response.json())
         .then(subjects => {
@@ -147,36 +167,55 @@ function loadFilters() {
             const hwSubject = document.getElementById('hwSubject');
             const manageSubject = document.getElementById('manageSubject');
             
+            // Clear and populate subjectFilter
             if (subjectFilter) {
                 subjectFilter.innerHTML = '<option value="">All Subjects</option>';
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.toLowerCase();
+                    option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+                    subjectFilter.appendChild(option);
+                });
             }
             
-            subjects.forEach(subject => {
-                const option = document.createElement('option');
-                option.value = subject.toLowerCase();
-                option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
-                if (subjectFilter) subjectFilter.appendChild(option.cloneNode(true));
-                if (hwSubject) hwSubject.appendChild(option.cloneNode(true));
-                if (manageSubject) manageSubject.appendChild(option.cloneNode(true));
-            });
+            // Clear and populate hwSubject
+            if (hwSubject) {
+                hwSubject.innerHTML = '<option value="">Select Subject</option>';
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.toLowerCase();
+                    option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+                    hwSubject.appendChild(option);
+                });
+            }
+            
+            // Clear and populate manageSubject
+            if (manageSubject) {
+                manageSubject.innerHTML = '<option value="">All Subjects</option>';
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.toLowerCase();
+                    option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+                    manageSubject.appendChild(option);
+                });
+            }
         })
         .catch(error => console.error('Error loading subjects:', error));
     
-    // Load weeks
+    // Load weeks - FIXED: Clear properly
     fetch('/api/weeks')
         .then(response => response.json())
         .then(weeks => {
             const weekFilter = document.getElementById('weekFilter');
             if (weekFilter) {
                 weekFilter.innerHTML = '<option value="">All Weeks</option>';
+                weeks.forEach(week => {
+                    const option = document.createElement('option');
+                    option.value = week.week_number;
+                    option.textContent = week.label;
+                    weekFilter.appendChild(option);
+                });
             }
-            
-            weeks.forEach(week => {
-                const option = document.createElement('option');
-                option.value = week.week_number;
-                option.textContent = week.label;
-                if (weekFilter) weekFilter.appendChild(option);
-            });
         })
         .catch(error => console.error('Error loading weeks:', error));
 }
@@ -791,10 +830,14 @@ function submitHomeworkData(data, questionImagePath, optionImages) {
 function loadManageHomework() {
     const classFilter = document.getElementById('manageClass')?.value || '';
     const subjectFilter = document.getElementById('manageSubject')?.value || '';
+    const chapterFilter = document.getElementById('manageChapter')?.value || '';
+    const topicFilter = document.getElementById('manageTopic')?.value || '';
     
     const params = new URLSearchParams();
     if (classFilter) params.append('class', classFilter);
     if (subjectFilter) params.append('subject', subjectFilter);
+    if (chapterFilter) params.append('chapter', chapterFilter);
+    if (topicFilter) params.append('topic', topicFilter);
     
     const list = document.getElementById('manageList');
     if (!list) return;
