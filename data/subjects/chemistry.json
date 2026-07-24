@@ -1,71 +1,75 @@
 {
-    "subject": "Chemistry",
-    "homework": [
-      {
-        "id": "hw_chem_001",
-        "class": "10",
-        "subject": "chemistry",
-        "type": "mcqs",
-        "question": "What is the name of the lab equipment shown in the image?",
-        "question_image": "/static/uploads/images/lab_equipment_question.jpg",
-        "options": [
-          {
-            "text": "Beaker - Used for mixing and heating liquids",
-            "image": "/static/uploads/images/beaker.jpg"
-          },
-          {
-            "text": "Test Tube - Used for small-scale reactions",
-            "image": "/static/uploads/images/test_tube.jpg"
-          },
-          {
-            "text": "Florence Flask - Used for heating liquids",
-            "image": "/static/uploads/images/florence_flask.jpg"
-          },
-          {
-            "text": "Graduated Cylinder - Used for measuring volumes",
-            "image": "/static/uploads/images/graduated_cylinder.jpg"
-          }
-        ],
-        "correct_answer": "D",
-        "marks": 2,
-        "date": "2024-01-15",
-        "week": 3,
-        "has_image": true,
-        "image_path": "/static/uploads/images/lab_equipment_question.jpg",
-        "hint": "Look at the markings on the side"
-      },
-      {
-        "id": "hw_chem_002",
-        "class": "11",
-        "subject": "chemistry",
-        "type": "mcqs",
-        "question": "Identify the organic compound structure shown below:",
-        "question_image": "/static/uploads/images/organic_compound_question.jpg",
-        "options": [
-          {
-            "text": "Benzene - Aromatic hydrocarbon with ring structure",
-            "image": "/static/uploads/images/benzene.jpg"
-          },
-          {
-            "text": "Hexane - Saturated hydrocarbon chain",
-            "image": "/static/uploads/images/hexane.jpg"
-          },
-          {
-            "text": "Ethene - Unsaturated hydrocarbon with double bond",
-            "image": "/static/uploads/images/ethene.jpg"
-          },
-          {
-            "text": "Propanol - Alcohol with OH group",
-            "image": "/static/uploads/images/propanol.jpg"
-          }
-        ],
-        "correct_answer": "A",
-        "marks": 3,
-        "date": "2024-01-16",
-        "week": 3,
-        "has_image": true,
-        "image_path": "/static/uploads/images/organic_compound_question.jpg",
-        "hint": "Look for the hexagonal ring structure"
-      }
-    ]
-  }
+  "subject": "Chemistry",
+  "homework": [
+    {
+      "id": "hw_chem_001",
+      "class": "10",
+      "subject": "chemistry",
+      "chapter": "Laboratory Techniques",
+      "topic": "Lab Equipment and Apparatus",
+      "type": "mcqs",
+      "question": "What is the name of the lab equipment shown in the image?",
+      "question_image": "/static/uploads/images/lab_equipment_question.jpg",
+      "options": [
+        {
+          "text": "Beaker - Used for mixing and heating liquids",
+          "image": "/static/uploads/images/beaker.jpg"
+        },
+        {
+          "text": "Test Tube - Used for small-scale reactions",
+          "image": "/static/uploads/images/test_tube.jpg"
+        },
+        {
+          "text": "Florence Flask - Used for heating liquids",
+          "image": "/static/uploads/images/florence_flask.jpg"
+        },
+        {
+          "text": "Graduated Cylinder - Used for measuring volumes",
+          "image": "/static/uploads/images/graduated_cylinder.jpg"
+        }
+      ],
+      "correct_answer": "D",
+      "marks": 2,
+      "date": "2024-01-15",
+      "week": 3,
+      "has_image": true,
+      "image_path": "/static/uploads/images/lab_equipment_question.jpg",
+      "hint": "Look at the markings on the side"
+    },
+    {
+      "id": "hw_chem_002",
+      "class": "11",
+      "subject": "chemistry",
+      "chapter": "Organic Chemistry",
+      "topic": "Hydrocarbons and Aromatic Compounds",
+      "type": "mcqs",
+      "question": "Identify the organic compound structure shown below:",
+      "question_image": "/static/uploads/images/organic_compound_question.jpg",
+      "options": [
+        {
+          "text": "Benzene - Aromatic hydrocarbon with ring structure",
+          "image": "/static/uploads/images/benzene.jpg"
+        },
+        {
+          "text": "Hexane - Saturated hydrocarbon chain",
+          "image": "/static/uploads/images/hexane.jpg"
+        },
+        {
+          "text": "Ethene - Unsaturated hydrocarbon with double bond",
+          "image": "/static/uploads/images/ethene.jpg"
+        },
+        {
+          "text": "Propanol - Alcohol with OH group",
+          "image": "/static/uploads/images/propanol.jpg"
+        }
+      ],
+      "correct_answer": "A",
+      "marks": 3,
+      "date": "2024-01-16",
+      "week": 3,
+      "has_image": true,
+      "image_path": "/static/uploads/images/organic_compound_question.jpg",
+      "hint": "Look for the hexagonal ring structure"
+    }
+  ]
+}
